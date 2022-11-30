@@ -3,7 +3,7 @@ from datetime import date
 from myst_parser import __version__
 
 project = "Project"
-copyright = f"{date.today().year}, Blake Naccarato"  # noqa: A001
+copyright = f"{date.today().year}, Abdulkarem Sennain, Blake Naccarato"  # noqa: A001
 version = __version__
 master_doc = "index"
 language = "en"
