@@ -1,5 +1,8 @@
 [flake8]
 
+exclude =
+    examples
+
 ; So pep8-naming doesn't complain about Pydantic validators
 classmethod-decorators =
     classmethod
