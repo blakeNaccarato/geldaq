@@ -1,3 +1,2 @@
-# Index
-
-Lorem ipsum
+```{include} ../README.md
+```

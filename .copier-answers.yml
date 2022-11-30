@@ -9,7 +9,7 @@ override_coveragerc: false
 override_env: false
 override_flake8: false
 override_gitattributes: false
-override_gitignore: false
+override_gitignore: true
 override_isort: false
 override_precommit: false
 override_pyrightconfig: false
