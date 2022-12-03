@@ -40,10 +40,16 @@ print(
 # Setup and call eReadName to read from AIN0 on the LabJack.
 name = "AIN0"
 
+
+# while loop to continously read voltage, delay can be adjusted (in seconds)
+# Will write function for this in future
+
+delay = 0.05
+
 while True:
     result = ljm.eReadName(handle, name)
     # Time delay between readings
-    time.sleep(0.5)
+    time.sleep(delay)
     print("\n%s reading : %f V" % (name, result))
 
 
