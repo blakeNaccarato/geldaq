@@ -1,13 +1,14 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: bd6593f
+_commit: 960e79c
 _src_path: gh:blakeNaccarato/copier-python
 github_repo_name: geldaq
 include_funding: false
 override: false
+override_cicd_setup: false
 override_codecov: false
 override_coveragerc: false
 override_env: false
-override_flake8: false
+override_flake8: true
 override_gitattributes: false
 override_gitignore: true
 override_isort: false
