@@ -42,9 +42,10 @@ name = "AIN0"
 
 
 # while loop to continously read voltage, delay can be adjusted (in seconds)
-# Will write function for this in future
+# Will write function for this in future, set the delay as a parameter (Convert to ms)
+# for use as a function parameter ex. delay = 150
 
-delay = 0.05
+delay = 1
 
 while True:
     result = ljm.eReadName(handle, name)
