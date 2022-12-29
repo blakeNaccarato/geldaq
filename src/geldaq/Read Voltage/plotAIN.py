@@ -20,8 +20,14 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
+
+
+import sys
 import time
 
+import keyboard
+
+# sys and time are part of Python's built-in library - did not include in requirements.txt
 from labjack import ljm
 
 # Open first found LabJack
@@ -40,18 +46,33 @@ print(
 # Setup and call eReadName to read from AIN0 on the LabJack.
 name = "AIN0"
 
-
 # while loop to continously read voltage, delay can be adjusted (in seconds)
 # Will write function for this in future, set the delay as a parameter (Convert to ms)
 # for use as a function parameter ex. delay = 150
 
-delay = 1
+delay = 0.01
 
 while True:
     result = ljm.eReadName(handle, name)
     # Time delay between readings
     time.sleep(delay)
-    print("\n%s reading : %f V" % (name, result))
+    print(f"\n{name} reading : {result:f} V")
+
+    # This section handles whether the data needs to be saved or not
+    try:
+        if keyboard.is_pressed("Esc"):
+
+            # If the user does not want to save data, exit the program
+            print("Data has not been saved. Exiting....")
+            sys.exit(0)
+
+            # If user presses 's' on keyboard, data aquisition stops and file is saved
+            # Does not matter if lower case or upper case 's' is pressed.
+        if keyboard.is_pressed("s"):
+            print("File saved.")
+            break
+    except Exception:
+        break
 
 
 # Close handle
