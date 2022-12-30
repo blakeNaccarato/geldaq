@@ -50,15 +50,26 @@ name = "AIN0"
 # Will write function for this in future, set the delay as a parameter (Convert to ms)
 # for use as a function parameter ex. delay = 150
 
-delay = 0.01
+delay = 0.05
+
+# This is the initial start time in UTC
+timeStart = time.time()
+
 
 while True:
+    runTime = time.time() - timeStart
     result = ljm.eReadName(handle, name)
+
     # Time delay between readings
     time.sleep(delay)
-    print(f"\n{name} reading : {result:f} V")
 
-    # This section handles whether the data needs to be saved or not
+    print(f"\n{name} reading : {result:f} V")
+    print(runTime)
+
+    # Put the continuous data into a DataFrame
+
+    # This section handles whether the data needs to be saved
+    # https://stackoverflow.com/questions/50733662/how-to-continue-or-exit-the-program-by-pressing-keys
     try:
         if keyboard.is_pressed("Esc"):
 
@@ -66,9 +77,9 @@ while True:
             print("Data has not been saved. Exiting....")
             sys.exit(0)
 
-            # If user presses 's' on keyboard, data aquisition stops and file is saved
-            # Does not matter if lower case or upper case 's' is pressed.
-        if keyboard.is_pressed("s"):
+            # If user presses 'Shift' on keyboard, data aquisition stops and file is saved
+            # If using alphabetic keys, does not matter if lower case or upper case is pressed
+        if keyboard.is_pressed("Shift"):
             print("File saved.")
             break
     except Exception:
