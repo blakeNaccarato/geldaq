@@ -53,18 +53,18 @@ name = "AIN0"
 delay = 0.05
 
 # This is the initial start time in UTC
-timeStart = time.time()
+TimeStart = time.time()
 
 
 while True:
-    runTime = time.time() - timeStart
+    RunTime = time.time() - TimeStart
     result = ljm.eReadName(handle, name)
 
     # Time delay between readings
     time.sleep(delay)
 
     print(f"\n{name} reading : {result:f} V")
-    print(runTime)
+    print(RunTime)
 
     # Put the continuous data into a DataFrame
 
