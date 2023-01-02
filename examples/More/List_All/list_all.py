@@ -4,7 +4,7 @@ LabJack devices and returns information describing the found devices. This will
 only find LabJack devices supported by the LJM library.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -20,14 +20,17 @@ LJM Library:
 """
 from labjack import ljm
 
-
-DEVICE_TYPES = {ljm.constants.dtT7: "T7",
-                ljm.constants.dtT4: "T4",
-                ljm.constants.dtDIGIT: "Digit"}
-CONN_TYPES = {ljm.constants.ctUSB: "USB",
-              ljm.constants.ctTCP: "TCP",
-              ljm.constants.ctETHERNET: "Ethernet",
-              ljm.constants.ctWIFI: "WiFi"}
+DEVICE_TYPES = {
+    ljm.constants.dtT7: "T7",
+    ljm.constants.dtT4: "T4",
+    ljm.constants.dtDIGIT: "Digit",
+}
+CONN_TYPES = {
+    ljm.constants.ctUSB: "USB",
+    ljm.constants.ctTCP: "TCP",
+    ljm.constants.ctETHERNET: "Ethernet",
+    ljm.constants.ctWIFI: "WiFi",
+}
 
 
 def displayDeviceInfo(functionName, info):
@@ -40,13 +43,17 @@ def displayDeviceInfo(functionName, info):
 
     """
     print("\n%s found %i LabJacks:\n" % (functionName, info[0]))
-    fmt = ''.join(["{%i:<18}" % i for i in range(0, 4)])
-    print(fmt.format("Device Type", "Connection Type", "Serial Number",
-                     "IP Address"))
+    fmt = "".join(["{%i:<18}" % i for i in range(0, 4)])
+    print(fmt.format("Device Type", "Connection Type", "Serial Number", "IP Address"))
     for i in range(info[0]):
-        print(fmt.format(DEVICE_TYPES.setdefault(info[1][i], str(info[1][i])),
-                         CONN_TYPES.setdefault(info[2][i], str(info[2][i])),
-                         str(info[3][i]), ljm.numberToIP(info[4][i])))
+        print(
+            fmt.format(
+                DEVICE_TYPES.setdefault(info[1][i], str(info[1][i])),
+                CONN_TYPES.setdefault(info[2][i], str(info[2][i])),
+                str(info[3][i]),
+                ljm.numberToIP(info[4][i]),
+            )
+        )
 
 
 # listAll and listAllS returns the tuple (numFound, aDeviceTypes,

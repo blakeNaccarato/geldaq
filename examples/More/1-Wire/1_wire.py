@@ -6,7 +6,7 @@ demonstration:
   - Reads temperature from a DS1822 sensor.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer
         https://labjack.com/support/software/installers/ljm
@@ -16,7 +16,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/opening-and-closing
     Multiple Value Functions(such as eReadNames):
         https://labjack.com/support/software/api/ljm/function-reference/multiple-value-functions
- 
+
 T-Series and I/O:
     1-Wire:
         https://labjack.com/support/datasheets/t-series/digital-io/1-wire
@@ -28,17 +28,18 @@ T-Series and I/O:
 """
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -52,12 +53,8 @@ if deviceType == ljm.constants.dtT4:
 dqPin = 8  # EIO8
 dpuPin = 0  # Not used
 options = 0  # bit 2 = 0 (DPU disabled), bit 3 = 0 (DPU polarity low, ignored)
-aNames = ["ONEWIRE_DQ_DIONUM",
-          "ONEWIRE_DPU_DIONUM",
-          "ONEWIRE_OPTIONS"]
-aValues = [dqPin,
-           dpuPin,
-           options]
+aNames = ["ONEWIRE_DQ_DIONUM", "ONEWIRE_DPU_DIONUM", "ONEWIRE_OPTIONS"]
+aValues = [dqPin, dpuPin, options]
 ljm.eWriteNames(handle, len(aNames), aNames, aValues)
 print("\nUsing the DS1822 sensor with 1-Wire communications.")
 print("  DQ pin = %d" % dqPin)
@@ -68,25 +65,23 @@ print("  Options  = %d" % options)
 function = 0xF0  # Search
 numTX = 0
 numRX = 0
-aNames = ["ONEWIRE_FUNCTION",
-          "ONEWIRE_NUM_BYTES_TX",
-          "ONEWIRE_NUM_BYTES_RX"]
-aValues = [function,
-           numTX,
-           numRX]
+aNames = ["ONEWIRE_FUNCTION", "ONEWIRE_NUM_BYTES_TX", "ONEWIRE_NUM_BYTES_RX"]
+aValues = [function, numTX, numRX]
 ljm.eWriteNames(handle, len(aNames), aNames, aValues)
 ljm.eWriteName(handle, "ONEWIRE_GO", 1)
-aNames = ["ONEWIRE_SEARCH_RESULT_H",
-          "ONEWIRE_SEARCH_RESULT_L",
-          "ONEWIRE_ROM_BRANCHS_FOUND_H",
-          "ONEWIRE_ROM_BRANCHS_FOUND_L"]
+aNames = [
+    "ONEWIRE_SEARCH_RESULT_H",
+    "ONEWIRE_SEARCH_RESULT_L",
+    "ONEWIRE_ROM_BRANCHS_FOUND_H",
+    "ONEWIRE_ROM_BRANCHS_FOUND_L",
+]
 aValues = ljm.eReadNames(handle, len(aNames), aNames)
 romH = aValues[0]
 romL = aValues[1]
-rom = (int(romH)<<8) + int(romL)
+rom = (int(romH) << 8) + int(romL)
 pathH = aValues[2]
 pathL = aValues[3]
-path = (int(pathH)<<8) + int(pathL)
+path = (int(pathH) << 8) + int(pathL)
 print("  ROM ID = %d" % rom)
 print("  Path = %d" % path)
 
@@ -96,20 +91,16 @@ function = 0x55  # Match
 numTX = 1
 dataTX = [0x44]  # 0x44 = DS1822 Convert T command
 numRX = 0
-aNames = ["ONEWIRE_FUNCTION",
-          "ONEWIRE_NUM_BYTES_TX",
-          "ONEWIRE_NUM_BYTES_RX",
-          "ONEWIRE_ROM_MATCH_H",
-          "ONEWIRE_ROM_MATCH_L",
-          "ONEWIRE_PATH_H",
-          "ONEWIRE_PATH_L"]
-aValues = [function,
-           numTX,
-           numRX,
-           romH,
-           romL,
-           pathH,
-           pathL]
+aNames = [
+    "ONEWIRE_FUNCTION",
+    "ONEWIRE_NUM_BYTES_TX",
+    "ONEWIRE_NUM_BYTES_RX",
+    "ONEWIRE_ROM_MATCH_H",
+    "ONEWIRE_ROM_MATCH_L",
+    "ONEWIRE_PATH_H",
+    "ONEWIRE_PATH_L",
+]
+aValues = [function, numTX, numRX, romH, romL, pathH, pathL]
 ljm.eWriteNames(handle, len(aNames), aNames, aValues)
 ljm.eWriteNameByteArray(handle, "ONEWIRE_DATA_TX", numTX, dataTX)
 ljm.eWriteName(handle, "ONEWIRE_GO", 1)
@@ -120,30 +111,26 @@ function = 0x55  # Match
 numTX = 1
 dataTX = [0xBE]  # 0xBE = DS1822 Read scratchpad command
 numRX = 2
-aNames = ["ONEWIRE_FUNCTION",
-          "ONEWIRE_NUM_BYTES_TX",
-          "ONEWIRE_NUM_BYTES_RX",
-          "ONEWIRE_ROM_MATCH_H",
-          "ONEWIRE_ROM_MATCH_L",
-          "ONEWIRE_PATH_H",
-          "ONEWIRE_PATH_L"]
-aValues = [function,
-           numTX,
-           numRX,
-           romH,
-           romL,
-           pathH,
-           pathL]
+aNames = [
+    "ONEWIRE_FUNCTION",
+    "ONEWIRE_NUM_BYTES_TX",
+    "ONEWIRE_NUM_BYTES_RX",
+    "ONEWIRE_ROM_MATCH_H",
+    "ONEWIRE_ROM_MATCH_L",
+    "ONEWIRE_PATH_H",
+    "ONEWIRE_PATH_L",
+]
+aValues = [function, numTX, numRX, romH, romL, pathH, pathL]
 ljm.eWriteNames(handle, len(aNames), aNames, aValues)
 ljm.eWriteNameByteArray(handle, "ONEWIRE_DATA_TX", numTX, dataTX)
 ljm.eWriteName(handle, "ONEWIRE_GO", 1)
 dataRX = ljm.eReadNameByteArray(handle, "ONEWIRE_DATA_RX", numRX)
-temperature = (int(dataRX[0]) + (int(dataRX[1])<<8))
+temperature = int(dataRX[0]) + (int(dataRX[1]) << 8)
 if temperature == 0x0550:
     print("The DS1822 power on reset value is 85 C.")
     print("Read again get the real temperature.")
 else:
     temperature = temperature * 0.0625
-    print("Temperature = %f C" % temperature);
+    print("Temperature = %f C" % temperature)
 
 ljm.close(handle)

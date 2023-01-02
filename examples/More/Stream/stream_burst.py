@@ -2,7 +2,7 @@
 Demonstrates how to use the streamBurst function for streaming.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -16,11 +16,11 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/ljmewritename
     StreamBurst:
         https://labjack.com/support/software/api/ljm/function-reference/ljmstreamburst
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
-    Stream Mode: 
+    Stream Mode:
         https://labjack.com/support/datasheets/t-series/communication/stream-mode
     Analog Inputs:
         https://labjack.com/support/datasheets/t-series/ain
@@ -31,24 +31,27 @@ import sys
 
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
 # Stream Configuration
 aScanListNames = ["AIN0", "AIN1"]  # Scan list names to stream
 numAddresses = len(aScanListNames)
-aScanList = ljm.namesToAddresses(numAddresses, aScanListNames)[0]  # Scan list addresses for streamBurst
+aScanList = ljm.namesToAddresses(numAddresses, aScanListNames)[
+    0
+]  # Scan list addresses for streamBurst
 scanRate = 10000  # Scans per second
 numScans = 20000  # Number of scans to perform
 
@@ -62,8 +65,12 @@ try:
 
         # AIN0 and AIN1 ranges are +/-10 V, stream settling is 0 (default) and
         # stream resolution index is 0 (default).
-        aNames = ["AIN0_RANGE", "AIN1_RANGE", "STREAM_SETTLING_US",
-                  "STREAM_RESOLUTION_INDEX"]
+        aNames = [
+            "AIN0_RANGE",
+            "AIN1_RANGE",
+            "STREAM_SETTLING_US",
+            "STREAM_RESOLUTION_INDEX",
+        ]
         aValues = [10.0, 10.0, 0, 0]
     else:
         # LabJack T7 and other devices configuration
@@ -77,8 +84,13 @@ try:
         # All negative channels are single-ended, AIN0 and AIN1 ranges are
         # +/-10 V, stream settling is 0 (default) and stream resolution index
         # is 0 (default).
-        aNames = ["AIN_ALL_NEGATIVE_CH", "AIN0_RANGE", "AIN1_RANGE",
-                  "STREAM_SETTLING_US", "STREAM_RESOLUTION_INDEX"]
+        aNames = [
+            "AIN_ALL_NEGATIVE_CH",
+            "AIN0_RANGE",
+            "AIN1_RANGE",
+            "STREAM_SETTLING_US",
+            "STREAM_RESOLUTION_INDEX",
+        ]
         aValues = [ljm.constants.GND, 10.0, 10.0, 0, 0]
     # Write the analog inputs' negative channels (when applicable), ranges,
     # stream settling time and stream resolution configuration.
@@ -96,7 +108,9 @@ try:
 
     print("\nStreaming with streamBurst ...")
     start = datetime.now()
-    scanRate, aData = ljm.streamBurst(handle, numAddresses, aScanList, scanRate, numScans)
+    scanRate, aData = ljm.streamBurst(
+        handle, numAddresses, aScanList, scanRate, numScans
+    )
     end = datetime.now()
     print("Done")
 
@@ -109,8 +123,8 @@ try:
     ainStr2 = ""
     lastScanIndex = len(aData) - numAddresses
     for j in range(0, numAddresses):
-        ainStr1 += "%s = %0.5f, " % (aScanListNames[j], aData[j])
-        ainStr2 += "%s = %0.5f, " % (aScanListNames[j], aData[lastScanIndex + j])
+        ainStr1 += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
+        ainStr2 += f"{aScanListNames[j]} = {aData[lastScanIndex + j]:0.5f}, "
     print("\nFirst scan: %s" % ainStr1)
     print("Last scan: %s" % ainStr2)
 except ljm.LJMError:

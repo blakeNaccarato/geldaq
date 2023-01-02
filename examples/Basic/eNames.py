@@ -2,7 +2,7 @@
 Demonstrates how to use the labjack.ljm.eNames (LJM_eNames) function.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -12,7 +12,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/opening-and-closing
     eNames:
         https://labjack.com/support/software/api/ljm/function-reference/ljmenames
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -22,17 +22,18 @@ T-Series and I/O:
 """
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 # Local constants to save screen space
 WRITE = ljm.constants.WRITE
@@ -49,8 +50,14 @@ UINT32 = ljm.constants.UINT32
 # read product ID,
 # and read firmware version.
 numFrames = 6
-aNames = ['DAC0', 'TEST_UINT16', 'TEST_UINT16', 'SERIAL_NUMBER', 'PRODUCT_ID',
-          'FIRMWARE_VERSION']
+aNames = [
+    "DAC0",
+    "TEST_UINT16",
+    "TEST_UINT16",
+    "SERIAL_NUMBER",
+    "PRODUCT_ID",
+    "FIRMWARE_VERSION",
+]
 aWrites = [WRITE, WRITE, READ, READ, READ, READ]
 aNumValues = [1, 1, 1, 1, 1, 1]
 aValues = [2.5, 12345, 0, 0, 0, 0]
@@ -60,8 +67,10 @@ print("\neNames results: ")
 start = 0
 for i in range(numFrames):
     end = start + aNumValues[i]
-    print("    Name - %16s, write - %i, values %s" %
-          (aNames[i], aWrites[i], results[start:end]))
+    print(
+        "    Name - %16s, write - %i, values %s"
+        % (aNames[i], aWrites[i], results[start:end])
+    )
     start = end
 
 # Close handle

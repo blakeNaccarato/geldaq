@@ -2,7 +2,7 @@
 Demonstrates how to set a single digital state on a LabJack.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -12,7 +12,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/opening-and-closing
     eWriteName:
         https://labjack.com/support/software/api/ljm/function-reference/ljmewritename
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -22,17 +22,18 @@ T-Series and I/O:
 """
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -53,7 +54,7 @@ else:
 
 state = 0  # Output state = low (0 = low, 1 = high)
 ljm.eWriteName(handle, name, state)
-print("\nSet %s state : %f" % (name, state))
+print(f"\nSet {name} state : {state:f}")
 
 # Close handle
 ljm.close(handle)

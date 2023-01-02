@@ -20,7 +20,7 @@ write.  If you short MISO to GND, then you will read back zeros.  If you
 short MISO to VS or leave it unconnected, you will read back 255s.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -32,7 +32,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/ljmewritename
     Multiple Value Functions(such as eWriteNameByteArray):
         https://labjack.com/support/software/api/ljm/function-reference/multiple-value-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -46,17 +46,18 @@ from random import randrange
 
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -101,16 +102,22 @@ ljm.eWriteName(handle, "SPI_SPEED_THROTTLE", 0)
 ljm.eWriteName(handle, "SPI_OPTIONS", 0)
 
 # Read back and display the SPI settings
-aNames = ["SPI_CS_DIONUM", "SPI_CLK_DIONUM", "SPI_MISO_DIONUM",
-          "SPI_MOSI_DIONUM", "SPI_MODE", "SPI_SPEED_THROTTLE",
-          "SPI_OPTIONS"]
-aValues = [0]*len(aNames)
+aNames = [
+    "SPI_CS_DIONUM",
+    "SPI_CLK_DIONUM",
+    "SPI_MISO_DIONUM",
+    "SPI_MOSI_DIONUM",
+    "SPI_MODE",
+    "SPI_SPEED_THROTTLE",
+    "SPI_OPTIONS",
+]
+aValues = [0] * len(aNames)
 numFrames = len(aNames)
 aValues = ljm.eReadNames(handle, numFrames, aNames)
 
 print("\nSPI Configuration:")
 for i in range(numFrames):
-    print("  %s = %0.0f" % (aNames[i],  aValues[i]))
+    print(f"  {aNames[i]} = {aValues[i]:0.0f}")
 
 # Write(TX)/Read(RX) 4 bytes
 numBytes = 4

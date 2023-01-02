@@ -3,7 +3,7 @@ Performs LabJack operations in a loop and reports the timing statistics for the
 operations.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -15,7 +15,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/single-value-functions
     Raw Byte Functions:
     https://labjack.com/support/software/api/ljm/function-reference/lowlevel-functions/raw-byte-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -25,15 +25,13 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
-from datetime import datetime
 import functools
 import timeit
 
 from labjack import ljm
 
 
-def eNamesIteration(handle, numFrames, aNames, aWrites, aNumValues, aValues,
-                    results):
+def eNamesIteration(handle, numFrames, aNames, aWrites, aNumValues, aValues, results):
     """Function for timit.Timer. Performs an eNames call to do LabJack
     operations. Takes eNames parameters and a list for results which
     will be filled.
@@ -44,29 +42,33 @@ def eNamesIteration(handle, numFrames, aNames, aWrites, aNumValues, aValues,
     results.extend(r)
 
 
-def eAddressesIteration(handle, numFrames, aAddresses, aTypes, aWrites,
-                        aNumValues, aValues, results):
+def eAddressesIteration(
+    handle, numFrames, aAddresses, aTypes, aWrites, aNumValues, aValues, results
+):
     """Function for timit.Timer. Performs an eAddresses call to do
     LabJack operations. Takes eAddresses parameters and a list for
     results which will be filled.
 
     """
     del results[:]
-    r = ljm.eAddresses(handle, numFrames, aAddresses, aTypes, aWrites,
-                       aNumValues, aValues)
+    r = ljm.eAddresses(
+        handle, numFrames, aAddresses, aTypes, aWrites, aNumValues, aValues
+    )
     results.extend(r)
 
 
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -97,10 +99,10 @@ if deviceType == ljm.constants.dtT4:
     # Update all digital I/O channels. b1 = Ignored. b0 = Affected.
     dioInhibit = 0x00000  # (b00000000000000000000)
     # Set AIN 0 to numAIN-1 as analog inputs (b1), the rest as digital I/O (b0).
-    dioAnalogEnable = (2 ** numAIN) - 1
-    ljm.eWriteNames(handle, 2,
-                    ["DIO_INHIBIT", "DIO_ANALOG_ENABLE"],
-                    [dioInhibit, dioAnalogEnable])
+    dioAnalogEnable = (2**numAIN) - 1
+    ljm.eWriteNames(
+        handle, 2, ["DIO_INHIBIT", "DIO_ANALOG_ENABLE"], [dioInhibit, dioAnalogEnable]
+    )
     if writeDigital is True:
         # Update only digital I/O channels in future digital write calls.
         # b1 = Ignored. b0 = Affected.
@@ -180,7 +182,7 @@ for i in range(numFrames):
         wrStr = "READ"
     else:
         wrStr = "WRITE"
-    print("    %s %s (%s)" % (wrStr, aNames[i], aAddresses[i]))
+    print(f"    {wrStr} {aNames[i]} ({aAddresses[i]})")
 
 print("\nBeginning %i iterations..." % numIterations)
 
@@ -191,13 +193,32 @@ totalMS = 0
 results = []
 t = None
 if useAddresses:
-    t = timeit.Timer(functools.partial(eAddressesIteration, handle, numFrames,
-                                       aAddresses, aTypes, aWrites, aNumValues,
-                                       aValues, results))
+    t = timeit.Timer(
+        functools.partial(
+            eAddressesIteration,
+            handle,
+            numFrames,
+            aAddresses,
+            aTypes,
+            aWrites,
+            aNumValues,
+            aValues,
+            results,
+        )
+    )
 else:
-    t = timeit.Timer(functools.partial(eNamesIteration, handle, numFrames,
-                                       aNames, aWrites, aNumValues, aValues,
-                                       results))
+    t = timeit.Timer(
+        functools.partial(
+            eNamesIteration,
+            handle,
+            numFrames,
+            aNames,
+            aWrites,
+            aNumValues,
+            aValues,
+            results,
+        )
+    )
 
 # eAddresses or eNames loop
 for i in range(numIterations):
@@ -210,10 +231,11 @@ for i in range(numIterations):
 
 print("\n%i iterations performed:" % numIterations)
 print("    Time taken: %.3f ms" % (totalMS * 1000))
-print("    Average time per iteration: %.3f ms" %
-      (totalMS / numIterations * 1000))
-print("    Min / Max time for one iteration: %.3f ms / %.3f ms" %
-      (minMS * 1000, maxMS * 1000))
+print("    Average time per iteration: %.3f ms" % (totalMS / numIterations * 1000))
+print(
+    "    Min / Max time for one iteration: %.3f ms / %.3f ms"
+    % (minMS * 1000, maxMS * 1000)
+)
 if useAddresses:
     print("\nLast eAddresses results: ")
 else:
@@ -223,8 +245,11 @@ for i in range(numFrames):
         wrStr = "READ"
     else:
         wrStr = "WRITE"
-    print("    %s (%s) %s value : %f" % (aNames[i], aAddresses[i], wrStr,
-                                         results[i]))
+    print(
+        "    {} ({}) {} value : {:f}".format(
+            aNames[i], aAddresses[i], wrStr, results[i]
+        )
+    )
 
 # Close handle
 ljm.close(handle)

@@ -1,4 +1,3 @@
-
 from time import sleep
 
 from labjack import ljm
@@ -16,7 +15,7 @@ def calculateSleepFactor(scansPerRead, LJMScanBacklog):
     """
     DECREASE_TOTAL = 0.9
     portionScansReady = float(LJMScanBacklog) / scansPerRead
-    if (portionScansReady > DECREASE_TOTAL):
+    if portionScansReady > DECREASE_TOTAL:
         return 0.0
     return (1 - portionScansReady) * DECREASE_TOTAL
 
@@ -46,7 +45,7 @@ def convertNameToOutBufferTypeStr(targetName):
         ljm.constants.UINT16: "U16",
         ljm.constants.UINT32: "U32",
         # Note that there is no STREAM_OUT#(0:3)_BUFFER_I32
-        ljm.constants.FLOAT32: "F32"
+        ljm.constants.FLOAT32: "F32",
     }
     intType = convertNameToIntType(targetName)
     return OUT_BUFFER_TYPE_STRINGS[intType]
@@ -106,10 +105,7 @@ def generateState(start, diff, stateSize, stateName):
         sample = start + diff * increment * iteration
         values.append(sample)
 
-    return {
-        "stateName": stateName,
-        "values": values
-    }
+    return {"stateName": stateName, "values": values}
 
 
 def createOutContext(streamOut):
@@ -158,27 +154,17 @@ def createOutContext(streamOut):
         "currentIndex": 0,
         "states": [],
         "stateSize": stateSize,
-        "targetTypeStr": targetType
+        "targetTypeStr": targetType,
     }
     outContext.update(streamOut)
 
     outContext["names"] = createStreamOutNames(outContext)
 
     outContext["states"].append(
-        generateState(
-            0.0,
-            2.5,
-            stateSize,
-            "increase from 0.0 to 2.5"
-        )
+        generateState(0.0, 2.5, stateSize, "increase from 0.0 to 2.5")
     )
     outContext["states"].append(
-        generateState(
-            5.0,
-            -2.5,
-            stateSize,
-            "decrease from 5.0 to 2.5"
-        )
+        generateState(5.0, -2.5, stateSize, "decrease from 5.0 to 2.5")
     )
 
     return outContext
@@ -186,29 +172,14 @@ def createOutContext(streamOut):
 
 def createStreamOutNames(outContext):
     return {
-        "streamOut":
-            "STREAM_OUT%(streamOutIndex)d" % outContext,
-
-        "target":
-            "STREAM_OUT%(streamOutIndex)d_TARGET" % outContext,
-
-        "bufferSize":
-            "STREAM_OUT%(streamOutIndex)d_BUFFER_SIZE" % outContext,
-
-        "loopSize":
-            "STREAM_OUT%(streamOutIndex)d_LOOP_SIZE" % outContext,
-
-        "setLoop":
-            "STREAM_OUT%(streamOutIndex)d_SET_LOOP" % outContext,
-
-        "bufferStatus":
-            "STREAM_OUT%(streamOutIndex)d_BUFFER_STATUS" % outContext,
-
-        "enable":
-            "STREAM_OUT%(streamOutIndex)d_ENABLE" % outContext,
-
-        "buffer":
-            "STREAM_OUT%(streamOutIndex)d_BUFFER_%(targetTypeStr)s" % outContext
+        "streamOut": "STREAM_OUT%(streamOutIndex)d" % outContext,
+        "target": "STREAM_OUT%(streamOutIndex)d_TARGET" % outContext,
+        "bufferSize": "STREAM_OUT%(streamOutIndex)d_BUFFER_SIZE" % outContext,
+        "loopSize": "STREAM_OUT%(streamOutIndex)d_LOOP_SIZE" % outContext,
+        "setLoop": "STREAM_OUT%(streamOutIndex)d_SET_LOOP" % outContext,
+        "bufferStatus": "STREAM_OUT%(streamOutIndex)d_BUFFER_STATUS" % outContext,
+        "enable": "STREAM_OUT%(streamOutIndex)d_ENABLE" % outContext,
+        "buffer": "STREAM_OUT%(streamOutIndex)d_BUFFER_%(targetTypeStr)s" % outContext,
     }
 
 
@@ -254,11 +225,12 @@ def updateStreamOutBuffer(handle, outContext):
 
     ljm.eWriteName(handle, outNames["setLoop"], outContext["setLoop"])
 
-    print("  Wrote " +
-          outContext["names"]["streamOut"] +
-          " state: " +
-          currentState["stateName"]
-          )
+    print(
+        "  Wrote "
+        + outContext["names"]["streamOut"]
+        + " state: "
+        + currentState["stateName"]
+    )
 
     # Increment the state and wrap it back to zero
     outContext["currentIndex"] = (stateIndex + 1) % len(outContext["states"])
@@ -276,11 +248,7 @@ def initializeStreamOut(handle, outContext):
 
 
 def processStreamResults(
-    iteration,
-    streamRead,
-    inNames,
-    deviceThreshold=0,
-    LJMThreshold=0
+    iteration, streamRead, inNames, deviceThreshold=0, LJMThreshold=0
 ):
     """Print ljm.eStreamRead results and count the number of skipped samples."""
     data = streamRead[0]
@@ -297,7 +265,7 @@ def processStreamResults(
     print("\neStreamRead %i" % iteration)
     resultStrs = []
     for index in range(len(inNames)):
-        resultStrs.append("%s = %0.5f" % (inNames[index], data[index]))
+        resultStrs.append(f"{inNames[index]} = {data[index]:0.5f}")
 
     if resultStrs:
         print("  1st scan out of %i: %s" % (numScans, ", ".join(resultStrs)))
@@ -315,8 +283,7 @@ def processStreamResults(
 
     if numSkippedSamples:
         print(
-            "  **** Samples skipped = %i (of %i) ****" %
-            (numSkippedSamples, len(data))
+            "  **** Samples skipped = %i (of %i) ****" % (numSkippedSamples, len(data))
         )
 
     statusStrs = []

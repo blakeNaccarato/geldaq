@@ -25,16 +25,14 @@ T-Series and I/O:
 
 """
 import sys
-import threading
-import time
 
 from labjack import ljm
-
 
 try:
     input = raw_input  # Set input to raw_input for Python 2.x
 except:
     pass
+
 
 def myReconnectCallback(handle):
     print("Reconnected handle: %s" % handle)
@@ -46,9 +44,9 @@ ljm.writeLibraryConfigS(ljm.constants.SEND_RECEIVE_TIMEOUT_MS, 500)
 
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 ljm.registerDeviceReconnectCallback(handle, myReconnectCallback)
 
@@ -63,13 +61,23 @@ while True:
             # Read the serial number from the device
             name = "SERIAL_NUMBER"
             value = ljm.eReadName(handle, name)
-            print("  Read %s: %.0f" % (name, value))
+            print(f"  Read {name}: {value:.0f}")
 
             # Above read succeeded. Displaying device information.
             info = ljm.getHandleInfo(handle)
-            print("  Handle: %i, Device type: %i, Connection type: %i, Serial number: %i,\n"
-                  "  IP address: %s, Port: %i, Max bytes per MB: %i" %
-                  (handle, info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+            print(
+                "  Handle: %i, Device type: %i, Connection type: %i, Serial number: %i,\n"
+                "  IP address: %s, Port: %i, Max bytes per MB: %i"
+                % (
+                    handle,
+                    info[0],
+                    info[1],
+                    info[2],
+                    ljm.numberToIP(info[3]),
+                    info[4],
+                    info[5],
+                )
+            )
         except ljm.LJMError:
             ljme = sys.exc_info()[1]
             print("  " + str(ljme))

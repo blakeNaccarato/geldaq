@@ -5,7 +5,7 @@ configures the I2C settings. Then a read, write and again a read are performed
 on the LJTick-DAC EEPROM.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -17,7 +17,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/ljmewritename
     Multiple Value Functions(such as eWriteNameByteArray):
         https://labjack.com/support/software/api/ljm/function-reference/multiple-value-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -33,17 +33,18 @@ from random import randrange
 
 from labjack import ljm
 
-
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -72,7 +73,9 @@ ljm.eWriteName(handle, "I2C_SPEED_THROTTLE", 65516)  # Speed throttle = 65516 (~
 #     bit2: Disable clock stretching.
 ljm.eWriteName(handle, "I2C_OPTIONS", 0)  # Options = 0
 
-ljm.eWriteName(handle, "I2C_SLAVE_ADDRESS", 80)  # Slave Address of the I2C chip = 80 (0x50)
+ljm.eWriteName(
+    handle, "I2C_SLAVE_ADDRESS", 80
+)  # Slave Address of the I2C chip = 80 (0x50)
 
 # Initial read of EEPROM bytes 0-3 in the user memory area. We need a single I2C
 # transmission that writes the chip's memory pointer and then reads the data.
@@ -89,11 +92,10 @@ ljm.eWriteName(handle, "I2C_GO", 1)  # Do the I2C communications.
 # Read the RX bytes.
 numBytes = 4
 # aBytes[0] to aBytes[3] will contain the data
-aBytes = [0]*4
+aBytes = [0] * 4
 aBytes = ljm.eReadNameByteArray(handle, "I2C_DATA_RX", numBytes)
 
-print("\nRead User Memory [0-3] = %s" %
-      " ".join([("%.0f" % val) for val in aBytes]))
+print("\nRead User Memory [0-3] = %s" % " ".join([("%.0f" % val) for val in aBytes]))
 
 # Write EEPROM bytes 0-3 in the user memory area, using the page write
 # technique.  Note that page writes are limited to 16 bytes max, and must be
@@ -112,8 +114,7 @@ ljm.eWriteNameByteArray(handle, "I2C_DATA_TX", numBytes, aBytes)
 
 ljm.eWriteName(handle, "I2C_GO", 1)  # Do the I2C communications.
 
-print("Write User Memory [0-3] = %s" %
-      " ".join([("%.0f" % val) for val in aBytes[1:]]))
+print("Write User Memory [0-3] = %s" % " ".join([("%.0f" % val) for val in aBytes[1:]]))
 
 # Final read of EEPROM bytes 0-3 in the user memory area. We need a single I2C
 # transmission that writes the address and then reads the data.
@@ -130,11 +131,10 @@ ljm.eWriteName(handle, "I2C_GO", 1)  # Do the I2C communications.
 # Read the RX bytes.
 numBytes = 4
 # aBytes[0] to aBytes[3] will contain the data
-aBytes = [0]*4
+aBytes = [0] * 4
 aBytes = ljm.eReadNameByteArray(handle, "I2C_DATA_RX", numBytes)
 
-print("Read User Memory [0-3] = %s" %
-      " ".join([("%.0f" % val) for val in aBytes]))
+print("Read User Memory [0-3] = %s" % " ".join([("%.0f" % val) for val in aBytes]))
 
 # Close handle
 ljm.close(handle)

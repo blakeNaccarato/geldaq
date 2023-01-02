@@ -2,7 +2,7 @@
 Demonstrates how to stream using the eStream functions.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -14,11 +14,11 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/constants
     Stream Functions:
         https://labjack.com/support/software/api/ljm/function-reference/stream-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
-    Stream Mode: 
+    Stream Mode:
         https://labjack.com/support/datasheets/t-series/communication/stream-mode
     Analog Inputs:
         https://labjack.com/support/datasheets/t-series/ain
@@ -29,19 +29,20 @@ import sys
 
 from labjack import ljm
 
-
 MAX_REQUESTS = 25  # The number of eStreamRead calls that will be performed.
 
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-      "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-      (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -62,8 +63,12 @@ try:
 
         # AIN0 and AIN1 ranges are +/-10 V, stream settling is 0 (default) and
         # stream resolution index is 0 (default).
-        aNames = ["AIN0_RANGE", "AIN1_RANGE", "STREAM_SETTLING_US",
-                  "STREAM_RESOLUTION_INDEX"]
+        aNames = [
+            "AIN0_RANGE",
+            "AIN1_RANGE",
+            "STREAM_SETTLING_US",
+            "STREAM_RESOLUTION_INDEX",
+        ]
         aValues = [10.0, 10.0, 0, 0]
     else:
         # LabJack T7 and other devices configuration
@@ -77,8 +82,13 @@ try:
         # All negative channels are single-ended, AIN0 and AIN1 ranges are
         # +/-10 V, stream settling is 0 (default) and stream resolution index
         # is 0 (default).
-        aNames = ["AIN_ALL_NEGATIVE_CH", "AIN0_RANGE", "AIN1_RANGE",
-                  "STREAM_SETTLING_US", "STREAM_RESOLUTION_INDEX"]
+        aNames = [
+            "AIN_ALL_NEGATIVE_CH",
+            "AIN0_RANGE",
+            "AIN1_RANGE",
+            "STREAM_SETTLING_US",
+            "STREAM_RESOLUTION_INDEX",
+        ]
         aValues = [ljm.constants.GND, 10.0, 10.0, 0, 0]
     # Write the analog inputs' negative channels (when applicable), ranges,
     # stream settling time and stream resolution configuration.
@@ -111,10 +121,12 @@ try:
         print("\neStreamRead %i" % i)
         ainStr = ""
         for j in range(0, numAddresses):
-            ainStr += "%s = %0.5f, " % (aScanListNames[j], aData[j])
+            ainStr += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
         print("  1st scan out of %i: %s" % (scans, ainStr))
-        print("  Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = "
-              "%i" % (curSkip/numAddresses, ret[1], ret[2]))
+        print(
+            "  Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = "
+            "%i" % (curSkip / numAddresses, ret[1], ret[2])
+        )
         i += 1
 
     end = datetime.now()

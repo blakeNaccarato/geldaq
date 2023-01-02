@@ -26,7 +26,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm
     Opening and Closing:
         https://labjack.com/support/software/api/ljm/function-reference/opening-and-closing
-    LJM Single Value Functions (like eReadName, eReadAddress): 
+    LJM Single Value Functions (like eReadName, eReadAddress):
         https://labjack.com/support/software/api/ljm/function-reference/single-value-functions
     Stream Functions (eStreamRead, eStreamStart, etc.):
         https://labjack.com/support/software/api/ljm/function-reference/stream-functions
@@ -46,11 +46,9 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/dac
 
 """
-import sys
 
 from labjack import ljm
 import ljm_stream_util
-
 
 # Setup
 
@@ -71,18 +69,8 @@ streamOuts = [
 ]
 """
 streamOuts = [
-    {
-        "target": "DAC0",
-        "bufferNumBytes": 512,
-        "streamOutIndex": 0,
-        "setLoop": 2
-    },
-    {
-        "target": "DAC1",
-        "bufferNumBytes": 512,
-        "streamOutIndex": 1,
-        "setLoop": 3
-    }
+    {"target": "DAC0", "bufferNumBytes": 512, "streamOutIndex": 0, "setLoop": 2},
+    {"target": "DAC1", "bufferNumBytes": 512, "streamOutIndex": 1, "setLoop": 3},
 ]
 
 initialScanRateHz = 200
@@ -102,7 +90,7 @@ if numCycles < numCycles_MIN:
 
 def printRegisterValue(handle, registerName):
     value = ljm.eReadName(handle, registerName)
-    print("%s = %f" % (registerName, value))
+    print(f"{registerName} = {value:f}")
 
 
 def openLJMDevice(deviceType, connectionType, identifier):
@@ -110,10 +98,16 @@ def openLJMDevice(deviceType, connectionType, identifier):
         handle = ljm.open(deviceType, connectionType, identifier)
     except ljm.LJMError:
         print(
-            "Error calling ljm.open(" +
-            "deviceType=" + str(deviceType) + ", " +
-            "connectionType=" + str(connectionType) + ", " +
-            "identifier=" + identifier + ")"
+            "Error calling ljm.open("
+            + "deviceType="
+            + str(deviceType)
+            + ", "
+            + "connectionType="
+            + str(connectionType)
+            + ", "
+            + "identifier="
+            + identifier
+            + ")"
         )
         raise
 
@@ -124,8 +118,8 @@ def printDeviceInfo(handle):
     info = ljm.getHandleInfo(handle)
     print(
         "Opened a LabJack with Device type: %i, Connection type: %i,\n"
-        "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i\n" %
-        (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+        "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i\n"
+        % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
     )
 
 
@@ -133,7 +127,7 @@ def main(
     initialScanRateHz=initialScanRateHz,
     inNames=inNames,
     streamOuts=streamOuts,
-    numCycles=numCycles
+    numCycles=numCycles,
 ):
     print("Beginning...")
     handle = openLJMDevice(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")
@@ -152,22 +146,24 @@ def main(
         printRegisterValue(handle, outContext["names"]["bufferStatus"])
 
     for outContext in outContexts:
-        updateStr = "Updating %(streamOut)s buffer whenever " \
+        updateStr = (
+            "Updating %(streamOut)s buffer whenever "
             "%(bufferStatus)s is greater or equal to " % outContext["names"]
+        )
         print(updateStr + str(outContext["stateSize"]))
 
     scansPerRead = int(min([context["stateSize"] for context in outContexts]))
     bufferStatusNames = [out["names"]["bufferStatus"] for out in outContexts]
     try:
         scanList = ljm_stream_util.createScanList(
-            inNames=inNames,
-            outContexts=outContexts
+            inNames=inNames, outContexts=outContexts
         )
         print("scanList: " + str(scanList))
         print("scansPerRead: " + str(scansPerRead))
 
-        scanRate = ljm.eStreamStart(handle, scansPerRead, len(scanList),
-                                     scanList, initialScanRateHz)
+        scanRate = ljm.eStreamStart(
+            handle, scansPerRead, len(scanList), scanList, initialScanRateHz
+        )
         print("\nStream started with a scan rate of %0.0f Hz." % scanRate)
         print("\nPerforming %i buffer updates." % numCycles)
 
@@ -178,15 +174,14 @@ def main(
             infinityPreventer = 0
             while max(bufferStatuses) < outContext["stateSize"]:
                 bufferStatuses = ljm.eReadNames(
-                    handle,
-                    len(bufferStatusNames),
-                    bufferStatusNames
+                    handle, len(bufferStatusNames), bufferStatusNames
                 )
                 infinityPreventer = infinityPreventer + 1
                 if infinityPreventer > scanRate:
                     raise ValueError(
-                        "Buffer statuses don't appear to be updating:" +
-                        str(bufferStatusNames) + str(bufferStatuses)
+                        "Buffer statuses don't appear to be updating:"
+                        + str(bufferStatusNames)
+                        + str(bufferStatuses)
                     )
 
             for outContext in outContexts:
@@ -200,7 +195,7 @@ def main(
                 streamRead,
                 inNames,
                 deviceThreshold=outContext["stateSize"],
-                LJMThreshold=outContext["stateSize"]
+                LJMThreshold=outContext["stateSize"],
             )
             totalNumSkippedScans += numSkippedScans
 

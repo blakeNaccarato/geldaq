@@ -3,7 +3,7 @@ Performs an initial call to eWriteNames to write configuration values, and then
 calls eWriteNames and eReadNames repeatedly in a loop.
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -17,7 +17,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/multiple-value-functions
     Timing Functions(such as StartInterval):
         https://labjack.com/support/software/api/ljm/function-reference/timing-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -33,7 +33,6 @@ import sys
 
 from labjack import ljm
 
-
 loopMessage = ""
 if len(sys.argv) > 1:
     # An argument was passed. The first argument specifies how many times to
@@ -41,9 +40,10 @@ if len(sys.argv) > 1:
     try:
         loopAmount = int(sys.argv[1])
     except:
-        raise Exception("Invalid first argument \"%s\". This specifies how many"
-                        " times to loop and needs to be a number." %
-                        str(sys.argv[1]))
+        raise Exception(
+            'Invalid first argument "%s". This specifies how many'
+            " times to loop and needs to be a number." % str(sys.argv[1])
+        )
 else:
     # An argument was not passed. Loop an infinite amount of times.
     loopAmount = "infinite"
@@ -51,14 +51,16 @@ else:
 
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-#handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-#handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-#handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+# handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+# handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+# handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
 info = ljm.getHandleInfo(handle)
-print("Opened a LabJack with Device type: %i, Connection type: %i,\n" \
-    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" % \
-    (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+print(
+    "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+    "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+    % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+)
 
 deviceType = info[0]
 
@@ -93,17 +95,21 @@ else:
     #     Range = +/- 10 V
     #     Resolution index = 0 (default)
     #     Settling = 0 (auto)
-    aNames = ["AIN0_NEGATIVE_CH", "AIN0_RANGE", "AIN0_RESOLUTION_INDEX",
-              "AIN0_SETTLING_US"]
+    aNames = [
+        "AIN0_NEGATIVE_CH",
+        "AIN0_RANGE",
+        "AIN0_RESOLUTION_INDEX",
+        "AIN0_SETTLING_US",
+    ]
     aValues = [199, 10, 0, 0]
 numFrames = len(aNames)
 ljm.eWriteNames(handle, numFrames, aNames, aValues)
 
 print("\nSet configuration:")
 for i in range(numFrames):
-    print("    %s : %f" % (aNames[i], aValues[i]))
+    print(f"    {aNames[i]} : {aValues[i]:f}")
 
-print("\nStarting %s read loops.%s\n" % (str(loopAmount), loopMessage))
+print(f"\nStarting {str(loopAmount)} read loops.{loopMessage}\n")
 i = 0
 dacVolt = 0.0
 fioState = 0
@@ -124,8 +130,10 @@ while True:
         aValues = [dacVolt, fioState]
         numFrames = len(aNames)
         ljm.eWriteNames(handle, numFrames, aNames, aValues)
-        print("\neWriteNames : " +
-              "".join(["%s = %f, " % (aNames[j], aValues[j]) for j in range(numFrames)]))
+        print(
+            "\neWriteNames : "
+            + "".join([f"{aNames[j]} = {aValues[j]:f}, " for j in range(numFrames)])
+        )
 
         # Setup and call eReadNames to read AIN0 and FIO6 (T4) for
         # FIO2 (T7 and other devices).
@@ -135,8 +143,10 @@ while True:
             aNames = ["AIN0", "FIO2"]
         numFrames = len(aNames)
         aValues = ljm.eReadNames(handle, numFrames, aNames)
-        print("eReadNames  : " +
-              "".join(["%s = %f, " % (aNames[j], aValues[j]) for j in range(numFrames)]))
+        print(
+            "eReadNames  : "
+            + "".join([f"{aNames[j]} = {aValues[j]:f}, " for j in range(numFrames)])
+        )
 
         # Repeat every 1 second
         skippedIntervals = ljm.waitForNextInterval(intervalHandle)
@@ -144,13 +154,14 @@ while True:
             print("\nSkippedIntervals: %s" % skippedIntervals)
 
         i += 1
-        if loopAmount is not "infinite":
+        if loopAmount != "infinite":
             if i >= loopAmount:
                 break
     except KeyboardInterrupt:
         break
     except Exception:
         import sys
+
         print(sys.exc_info()[1])
         break
 

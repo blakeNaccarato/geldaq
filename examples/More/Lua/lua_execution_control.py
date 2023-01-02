@@ -2,7 +2,7 @@
 Demonstrates how to control lua script execution with an LJM host app
 
 Relevant Documentation:
- 
+
 LJM Library:
     LJM Library Installer:
         https://labjack.com/support/software/installers/ljm
@@ -14,7 +14,7 @@ LJM Library:
         https://labjack.com/support/software/api/ljm/function-reference/single-value-functions
     Multiple Value Functions(such as eReadNameByteArray):
         https://labjack.com/support/software/api/ljm/function-reference/multiple-value-functions
- 
+
 T-Series and I/O:
     Modbus Map:
         https://labjack.com/support/software/api/modbus/modbus-map
@@ -22,13 +22,13 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/lua-scripting#user-ram
 
 """
-from labjack import ljm
 from time import sleep
 
-def loadLuaScript(handle, luaScript):
-    """Function that loads and begins running a lua script
+from labjack import ljm
 
-    """
+
+def loadLuaScript(handle, luaScript):
+    """Function that loads and begins running a lua script"""
     try:
         scriptLen = len(luaScript)
         # LUA_RUN must be written to twice to disable any running scripts.
@@ -43,13 +43,14 @@ def loadLuaScript(handle, luaScript):
         ljm.eWriteName(handle, "LUA_DEBUG_ENABLE", 1)
         ljm.eWriteName(handle, "LUA_DEBUG_ENABLE_DEFAULT", 1)
         ljm.eWriteName(handle, "LUA_RUN", 1)
-    except ljm.LJMError: 
+    except ljm.LJMError:
         print("Error while loading the lua script")
         raise
 
+
 def readLuaInfo(handle):
     """Function that selects the current lua execution block and prints
-       out associated info from lua
+    out associated info from lua
 
     """
     try:
@@ -65,7 +66,7 @@ def readLuaInfo(handle):
             # Write which lua control block to run using the user ram register
             ljm.eWriteName(handle, "USER_RAM0_U16", executionLoopNum)
             numBytes = ljm.eReadName(handle, "LUA_DEBUG_NUM_BYTES")
-            if (int(numBytes) == 0):
+            if int(numBytes) == 0:
                 continue
             print("LUA_DEBUG_NUM_BYTES: %d\n" % numBytes)
             aBytes = ljm.eReadNameByteArray(handle, "LUA_DEBUG_DATA", int(numBytes))
@@ -106,15 +107,19 @@ def main():
                       end
                     end"""
         # Open first found LabJack
-        handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
-        #handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
-        #handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
-        #handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
+        handle = ljm.openS(
+            "ANY", "ANY", "ANY"
+        )  # Any device, Any connection, Any identifier
+        # handle = ljm.openS("T7", "ANY", "ANY")  # T7 device, Any connection, Any identifier
+        # handle = ljm.openS("T4", "ANY", "ANY")  # T4 device, Any connection, Any identifier
+        # handle = ljm.open(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")  # Any device, Any connection, Any identifier
 
         info = ljm.getHandleInfo(handle)
-        print("Opened a LabJack with Device type: %i, Connection type: %i,\n"
-              "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i" %
-              (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5]))
+        print(
+            "Opened a LabJack with Device type: %i, Connection type: %i,\n"
+            "Serial number: %i, IP address: %s, Port: %i,\nMax bytes per MB: %i"
+            % (info[0], info[1], info[2], ljm.numberToIP(info[3]), info[4], info[5])
+        )
 
         loadLuaScript(handle, luaScript)
         print("LUA_RUN %d" % ljm.eReadName(handle, "LUA_RUN"))
@@ -132,6 +137,7 @@ def main():
         # Close handle
         ljm.close(handle)
         raise
+
 
 if __name__ == "__main__":
     main()
