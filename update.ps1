@@ -12,4 +12,3 @@ pip install -U -r .tools/requirements/requirements_dev.txt
 pip uninstall -y geldaq
 python .tools/scripts/bump_pyproject.py
 pip install -e .
-git submodule update --init --remote
