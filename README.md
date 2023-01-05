@@ -1,7 +1,5 @@
 # `geldaq` – Data acquisition for PVC gel experiments
 
-I'm making a modification here.
-
 This tool facilitates the logging and display of sub-millivolt signals in the lab, such as those from PVC gels. It also provides utilities for active feedback control of systems including PVC gels and other such samples.
 
 ## Development
