@@ -1,5 +1,7 @@
 # `geldaq` – Data acquisition for PVC gel experiments
 
+I'm making a modification here.
+
 This tool facilitates the logging and display of sub-millivolt signals in the lab, such as those from PVC gels. It also provides utilities for active feedback control of systems including PVC gels and other such samples.
 
 ## Development
@@ -18,4 +20,4 @@ Save this custom search engine, and now when you click in the search bar (or use
 
 The `examples` directory contains usage examples from LabJack Corporation, obtained from the [Python for LJM] documentation. The syntax and style of these examples differ from our code style, so you may need to adjust them in your usage. Migrate relevant code snippets to the `src/geldaq` folder, modifying them as you see fit.
 
-[Python for LJM]: <https://labjack.com/pages/support/software/?doc=/software-driver/example-codewrappers/python-for-ljm-windows-mac-linux/>
+[python for ljm]: https://labjack.com/pages/support/software/?doc=/software-driver/example-codewrappers/python-for-ljm-windows-mac-linux/
