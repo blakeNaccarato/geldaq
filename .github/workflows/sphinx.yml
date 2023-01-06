@@ -28,6 +28,7 @@ jobs:
       - run: "jupyter-book build docs --path-output _site"
       - uses: "actions/upload-pages-artifact@v1"
   deploy:
+    if: "${{ github.event.name == push }}"
     environment:
       name: "github-pages"
       url: "${{ steps.deployment.outputs.page_url }}"
