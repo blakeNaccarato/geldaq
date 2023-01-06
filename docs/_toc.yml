@@ -1,0 +1,8 @@
+format: jb-book
+root: home
+parts:
+  - caption: Jupyter book examples
+    chapters:
+      - file: example/markdown
+      - file: example/notebooks
+      - file: example/markdown-notebooks
