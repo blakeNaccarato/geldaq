@@ -63,7 +63,7 @@ Additionally, community organizers are available to help community members engag
 
 ## 8. Addressing Grievances
 
-If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify Abdulkarem Sennain, Blake Naccarato with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies.
+If you feel you have been falsely or unfairly accused of violating this Code of Conduct, you should notify Daniel Fisher, Blake Naccarato, Abdulkarem Sennain with a concise description of your grievance. Your grievance will be handled in accordance with our existing governing policies.
 
 ## 9. Scope
 
