@@ -69,18 +69,15 @@
 
     // * -------------------------------------------------------------------------- * //
     // * OTHER TASKS * //
-
     {
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "process",
       "command": "pwsh",
-      "args": [
-        "-Command",
-        "watchfiles 'jupyter-book build docs --path-output _site' docs"
-      ],
+      "args": ["-Command", "sphinx-autobuild docs _site"],
       "icon": { "id": "book" },
       "problemMatcher": []
     },
+
     {
       "label": "task: snakeviz",
       "type": "process",

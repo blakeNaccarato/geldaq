@@ -1,6 +1,6 @@
-# For watching files until Live Preview supports it natively
-# https://github.com/microsoft/vscode-livepreview/issues/233
-watchfiles~=0.18.1
-
-# Instead of just MyST
-jupyter-book~=0.13.1
+sphinx~=4.5.0
+myst-parser~=0.18.0
+sphinx-book-theme~=0.3.3
+sphinx-design~=0.3.0
+# doesn't follow semver
+sphinx-autobuild==2021.03.14
