@@ -74,7 +74,10 @@
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "process",
       "command": "pwsh",
-      "args": ["-Command", "sphinx-autobuild docs _site"],
+      "args": [
+        "-Command",
+        "watchfiles 'jupyter-book build docs --path-output _site' docs"
+      ],
       "icon": { "id": "book" },
       "problemMatcher": []
     },
