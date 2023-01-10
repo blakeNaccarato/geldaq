@@ -62,7 +62,7 @@ print("Reference String")
 # Create the initial dataframe "data" before the readings are recorded in the
 # loop by the LabJack
 
-# Before putting together dfData, each column will be stored as a list.
+# Before putting together dfdata, each column will be stored as a list.
 # This dataframe will be populated after the loop finishes and the data is saved
 # by the user. There are three lists total for each column.
 
@@ -123,9 +123,9 @@ while True:
                 "Response": Volt,
                 "Local Time": RealTime,
             }
-            dfData = pd.DataFrame(DictSortData)
+            dfdata = pd.DataFrame(DictSortData)
 
-            print(dfData)
+            print(dfdata)
 
             print("File saved.")
             break
