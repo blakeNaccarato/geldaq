@@ -24,8 +24,6 @@ T-Series and I/O:
 
 import datetime
 import sys
-
-# import sys
 import time
 
 import keyboard
@@ -63,20 +61,15 @@ print("Reference String")
 
 # Create the initial dataframe "data" before the readings are recorded in the
 # loop by the LabJack
-dfData = pd.DataFrame(columns=["PST", "Relative Time", "Response (mV)"])
-
-print(dfData)
 
 # Before putting together dfData, each column will be stored as a list.
 # This dataframe will be populated after the loop finishes and the data is saved
 # by the user. There are three lists total for each column.
 
 # List 1 / Column 1: Relative Time
-RelativeTime = []
-
+RunTimeList = []
 # List 2 / Column 2: Voltage Output
 Volt = []
-
 # List 3 / Column 3: Real Time in PST
 RealTime = []
 
@@ -92,8 +85,8 @@ while True:
     # Time delay between voltage and relative time readings
     time.sleep(delay)
 
-    # Populate RelativeTime
-    RelativeTime.append(RunTime)
+    # Populate RunTimList list
+    RunTimeList.append(RunTime)
     # Populate RealTime list in PST
     RealTime.append(datetime.datetime.now())
     # Populate Voltage list
@@ -108,8 +101,6 @@ while True:
         if keyboard.is_pressed("Esc"):
 
             # If the user does not want to save data, exit the program
-            print("Testing")
-            # print(length)
             print("Data has not been saved. Exiting...")
 
             sys.exit(0)
@@ -118,6 +109,19 @@ while True:
             # If using alphabetic keys, does not matter if lower case or upper case is pressed
 
         if keyboard.is_pressed("Shift"):
+            # Populate dataFrame with created lists using dictionary
+            # Dictionary uses key:value pairs, ex. color:red, year:2012
+            # https://favtutor.com/blogs/list-to-dataframe-python
+
+            DictSortData = {
+                "Time": RunTimeList,
+                "Response": Volt,
+                "Local Time": RealTime,
+            }
+            dfData = pd.DataFrame(DictSortData)
+
+            print(dfData)
+
             print("File saved.")
             break
     except Exception:
