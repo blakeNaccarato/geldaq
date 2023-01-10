@@ -197,11 +197,5 @@
   },
 
   //! Extension: Jupyter Notebooks
-  "jupyter.notebookFileRoot": "${workspaceFolder}",
-
-  "editor.tokenColorCustomizations": {
-    "[Monokai]": {
-      "comments": "#7bcea9ca"
-    }
-  }
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
 }
