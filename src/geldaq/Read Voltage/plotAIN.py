@@ -98,6 +98,11 @@ while True:
     # This section handles whether the data needs to be saved
     # https://stackoverflow.com/questions/50733662/how-to-continue-or-exit-the-program-by-pressing-keys
     try:
+        # Test conditional statement if voltage reaches a certain threshold
+
+        if reading < 0:
+            print("negative")
+
         if keyboard.is_pressed("Esc"):
 
             # If the user does not want to save data, exit the program
