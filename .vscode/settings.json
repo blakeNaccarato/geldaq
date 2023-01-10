@@ -197,5 +197,11 @@
   },
 
   //! Extension: Jupyter Notebooks
-  "jupyter.notebookFileRoot": "${workspaceFolder}"
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+
+  "editor.tokenColorCustomizations": {
+    "[Monokai]": {
+      "comments": "#7bcea9ca"
+    }
+  }
 }
