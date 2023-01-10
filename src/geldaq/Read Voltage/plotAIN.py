@@ -22,13 +22,18 @@ T-Series and I/O:
 """
 
 
+import datetime
 import sys
+
+# import sys
 import time
 
 import keyboard
+from labjack import ljm
+import pandas as pd
 
 # sys and time are part of Python's built-in library - did not include in requirements.txt
-from labjack import ljm
+
 
 # Open first found LabJack
 handle = ljm.openS("ANY", "ANY", "ANY")  # Any device, Any connection, Any identifier
@@ -50,23 +55,52 @@ name = "AIN0"
 # Will write function for this in future, set the delay as a parameter (Convert to ms)
 # for use as a function parameter ex. delay = 150
 
-delay = 0.05
+delay = 0.2
 
 # This is the initial start time in UTC
 TimeStart = time.time()
+print("Reference String")
+
+# Create the initial dataframe "data" before the readings are recorded in the
+# loop by the LabJack
+dfData = pd.DataFrame(columns=["PST", "Relative Time", "Response (mV)"])
+
+print(dfData)
+
+# Before putting together dfData, each column will be stored as a list.
+# This dataframe will be populated after the loop finishes and the data is saved
+# by the user. There are three lists total for each column.
+
+# List 1 / Column 1: Relative Time
+RelativeTime = []
+
+# List 2 / Column 2: Voltage Output
+Volt = []
+
+# List 3 / Column 3: Real Time in PST
+RealTime = []
 
 
 while True:
-    RunTime = time.time() - TimeStart
-    result = ljm.eReadName(handle, name)
 
-    # Time delay between readings
+    # Relative time measured with reference to start time in UTC
+    RunTime = time.time() - TimeStart
+
+    # Voltage reading
+    reading = ljm.eReadName(handle, name)
+
+    # Time delay between voltage and relative time readings
     time.sleep(delay)
 
-    print(f"\n{name} reading : {result:f} V")
-    print(RunTime)
+    # Populate RelativeTime
+    RelativeTime.append(RunTime)
+    # Populate RealTime list in PST
+    RealTime.append(datetime.datetime.now())
+    # Populate Voltage list
+    Volt.append(reading)
 
-    # Put the continuous data into a DataFrame
+    print(f"\n{name} reading : {reading:f} V")
+    print(RunTime)
 
     # This section handles whether the data needs to be saved
     # https://stackoverflow.com/questions/50733662/how-to-continue-or-exit-the-program-by-pressing-keys
@@ -74,11 +108,15 @@ while True:
         if keyboard.is_pressed("Esc"):
 
             # If the user does not want to save data, exit the program
-            print("Data has not been saved. Exiting....")
+            print("Testing")
+            # print(length)
+            print("Data has not been saved. Exiting...")
+
             sys.exit(0)
 
             # If user presses 'Shift' on keyboard, data aquisition stops and file is saved
             # If using alphabetic keys, does not matter if lower case or upper case is pressed
+
         if keyboard.is_pressed("Shift"):
             print("File saved.")
             break

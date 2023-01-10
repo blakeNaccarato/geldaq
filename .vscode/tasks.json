@@ -69,7 +69,6 @@
 
     // * -------------------------------------------------------------------------- * //
     // * OTHER TASKS * //
-
     {
       "label": "task: sphinx-autobuild docs (preview)",
       "type": "process",
@@ -78,6 +77,7 @@
       "icon": { "id": "book" },
       "problemMatcher": []
     },
+
     {
       "label": "task: snakeviz",
       "type": "process",
