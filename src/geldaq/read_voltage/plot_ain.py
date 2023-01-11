@@ -23,12 +23,15 @@ T-Series and I/O:
 
 
 import datetime
+from pathlib import Path
 import sys
 import time
 
 import keyboard
 from labjack import ljm
 import pandas as pd
+
+from geldaq.read_voltage.configs import DEFAULT_DATA_DIR
 
 # sys and time are part of Python's built-in library - did not include in requirements.txt
 
@@ -53,7 +56,7 @@ name = "AIN0"
 # Will write function for this in future, set the delay as a parameter (Convert to ms)
 # for use as a function parameter ex. delay = 150
 
-delay = 0.2
+delay = 0.025
 
 # This is the initial start time in UTC
 TimeStart = time.time()
@@ -101,7 +104,7 @@ while True:
         # Test conditional statement if voltage reaches a certain threshold
 
         if reading < 0:
-            print("negative")
+            print("Negative")
 
         if keyboard.is_pressed("Esc"):
 
@@ -124,10 +127,18 @@ while True:
                 "Local Time": RealTime,
             }
             dfdata = pd.DataFrame(DictSortData)
-
             print(dfdata)
 
-            print("File saved.")
+            # Reference the default directory from the file in which it was created
+            # (configs.py)
+
+            # Create directory in case user hasn't run configs.py
+            DEFAULT_DATA_DIR.mkdir(exist_ok=True, parents=True)
+            print("\nFile saved.")
+            # filename = input()
+            print(DEFAULT_DATA_DIR)
+            dfdata.to_csv(DEFAULT_DATA_DIR / Path("new.csv"))
+
             break
     except Exception:
         break
