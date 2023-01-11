@@ -11,6 +11,9 @@
   // See: https://github.com/microsoft/vscode-python/issues/944#issuecomment-808516207
   "terminal.integrated.defaultProfile.linux": "pwsh",
 
+  // Don't let VSCode activate our environment because our terminal already does so.
+  "python.terminal.activateEnvironment": false,
+
   //! Pylance
   //* Pylance settings aren't very discoverable.
   //* https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance
