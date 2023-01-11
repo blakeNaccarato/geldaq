@@ -27,10 +27,11 @@ from pathlib import Path
 import sys
 import time
 
-from configs import DEFAULT_DATA_DIR
 import keyboard
 from labjack import ljm
 import pandas as pd
+
+from geldaq.read_voltage.configs import DEFAULT_DATA_DIR
 
 # sys and time are part of Python's built-in library - did not include in requirements.txt
 
