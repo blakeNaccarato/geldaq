@@ -24,7 +24,6 @@ T-Series and I/O:
 
 import datetime
 from pathlib import Path
-import sys
 import time
 
 import keyboard
@@ -51,7 +50,6 @@ print(
 )
 
 # Setup and call eReadName to read from AIN0 on the LabJack.
-name = "AIN0"
 
 # while loop to continously read voltage, delay can be adjusted (in seconds)
 # Will write function for this in future, set the delay as a parameter (Convert to ms)
@@ -72,9 +70,11 @@ print("Reference String")
 
 # List 1 / Column 1: Relative Time
 RunTimeList = []
-# List 2 / Column 2: Voltage Output
-Volt = []
-# List 3 / Column 3: Real Time in PST
+# List 2 / Column 2: Voltage1 Output
+Volt1 = []
+# List 3 / Column 3: Voltage2 Output
+Volt2 = []
+# List 4 / Column 3: Real Time in PST
 RealTime = []
 
 
@@ -84,7 +84,8 @@ while True:
     RunTime = time.time() - TimeStart
 
     # Voltage reading
-    reading = ljm.eReadName(handle, name)
+    reading1 = ljm.eReadName(handle, "AIN0")
+    reading2 = ljm.eReadName(handle, "AIN1")
 
     # Time delay between voltage and relative time readings
     time.sleep(delay)
@@ -93,10 +94,12 @@ while True:
     RunTimeList.append(RunTime)
     # Populate RealTime list in PST
     RealTime.append(datetime.datetime.now())
-    # Populate Voltage list
-    Volt.append(reading)
+    # Populate Voltage lists
+    Volt1.append(reading1)
+    Volt2.append(reading2)
 
-    print(f"\n{name} reading : {reading:f} V")
+    name = "AIN1"
+    print(f"\n{name} reading : {reading2:f} V")
     print(RunTime)
 
     # This section handles whether the data needs to be saved
@@ -104,7 +107,7 @@ while True:
     try:
         # Test conditional statement if voltage reaches a certain threshold
 
-        if reading < 0:
+        if reading1 or reading2 < 0:
             print("Negative")
 
         if keyboard.is_pressed("Esc"):
@@ -112,19 +115,20 @@ while True:
             # If the user does not want to save data, exit the program
             print("Data has not been saved. Exiting...")
 
-            sys.exit(0)
+            break
 
+        if keyboard.is_pressed("Shift"):
             # If user presses 'Shift' on keyboard, data aquisition stops and file is saved
             # If using alphabetic keys, does not matter if lower case or upper case is pressed
 
-        if keyboard.is_pressed("Shift"):
             # Populate dataFrame with created lists using dictionary
             # Dictionary uses key:value pairs, ex. color:red, year:2012
             # https://favtutor.com/blogs/list-to-dataframe-python
 
             DictSortData = {
                 "Time": RunTimeList,
-                "Response": Volt,
+                "Response1": Volt1,
+                "Response2": Volt2,
                 "Local Time": RealTime,
             }
             dfdata = pd.DataFrame(DictSortData)
