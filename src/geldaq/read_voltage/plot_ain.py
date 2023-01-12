@@ -31,7 +31,8 @@ import keyboard
 from labjack import ljm
 import pandas as pd
 
-from geldaq.read_voltage.configs import DEFAULT_DATA_DIR
+# This line creates the directory since it is reading the configs.py file in its entirety
+from geldaq.configs import DEFAULT_DATA_DIR
 
 # sys and time are part of Python's built-in library - did not include in requirements.txt
 
@@ -133,11 +134,14 @@ while True:
             # (configs.py)
 
             # Create directory in case user hasn't run configs.py
-            DEFAULT_DATA_DIR.mkdir(exist_ok=True, parents=True)
-            print("\nFile saved.")
+            date_string = datetime.datetime.now().isoformat().replace(":", "_")
+
+            # Need to replace all of the colons in date_string
+
+            print(f"\nFile saved: {DEFAULT_DATA_DIR}")
             # filename = input()
-            print(DEFAULT_DATA_DIR)
-            dfdata.to_csv(DEFAULT_DATA_DIR / Path("new.csv"))
+
+            dfdata.to_csv(DEFAULT_DATA_DIR / Path(f"{date_string}.csv"))
 
             break
     except Exception:
