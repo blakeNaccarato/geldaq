@@ -10,3 +10,5 @@ DEFAULT_DATA_DIR = Path("~/.geldaq/data").expanduser()
 # exist_ok=True is set so that an error isn't raised
 # Set parents=True, otherwise will return error since it can't find /geldaq
 DEFAULT_DATA_DIR.mkdir(exist_ok=True, parents=True)
+
+CANARY = "yellow"
