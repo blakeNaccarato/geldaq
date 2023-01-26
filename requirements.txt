@@ -2,3 +2,4 @@
 pandas~=1.5.2
 labjack-ljm~=1.21.0
 keyboard~=0.13.5
+matplotlib~=3.6.2
