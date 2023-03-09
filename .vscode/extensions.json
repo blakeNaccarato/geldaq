@@ -1,18 +1,25 @@
 {
   "recommendations": [
+    // * -------------------------------------------------------------------------- * //
+    // * Changes below should persist in significant template updates.
+
+    // * -------------------------------------------------------------------------- * //
+    // * Changes below may be lost in significant template updates.
+
     "aaron-bond.better-comments",
     "bierner.markdown-preview-github-styles",
     "blackmist.linkcheckmd",
+    "charliermarsh.ruff",
     "cschleiden.vscode-github-actions",
     "davidanson.vscode-markdownlint",
     "donjayamanne.githistory",
     "dotjoshjohnson.xml",
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
+    "executablebookproject.myst-highlight",
+    "github.codespaces",
     "github.vscode-pull-request-github",
     "ms-python.black-formatter",
-    "ms-python.flake8",
-    "ms-python.isort",
     "redhat.vscode-yaml",
     "reverbc.vscode-pytest",
     "ryanluker.vscode-coverage-gutters",
