@@ -1,5 +1,4 @@
-"""
-Enables a 10 kHz PWM output on FIO0 for the T7 or FIO6 for the T4, enables a
+"""Enables a 10 kHz PWM output on FIO0 for the T7 or FIO6 for the T4, enables a
 high-speed counter on CIO2 (DIO18), waits 1 second and reads the counter. Jumper
 FIO0/FIO6 to CIO2 and the read value. Value should be close to 10000.
 

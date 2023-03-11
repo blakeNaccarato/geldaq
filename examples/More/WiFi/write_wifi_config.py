@@ -1,5 +1,4 @@
-"""
-Demonstrates how to configure the WiFi settings on a LabJack.
+"""Demonstrates how to configure the WiFi settings on a LabJack.
 
 Relevant Documentation:
 

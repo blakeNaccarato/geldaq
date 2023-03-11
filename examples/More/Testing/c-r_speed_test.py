@@ -1,5 +1,4 @@
-"""
-Performs LabJack operations in a loop and reports the timing statistics for the
+"""Performs LabJack operations in a loop and reports the timing statistics for the
 operations.
 
 Relevant Documentation:
@@ -178,10 +177,7 @@ aAddresses, aTypes = ljm.namesToAddresses(numFrames, aNames)
 
 print("\nTest frames:")
 for i in range(numFrames):
-    if aWrites[i] == ljm.constants.READ:
-        wrStr = "READ"
-    else:
-        wrStr = "WRITE"
+    wrStr = "READ" if aWrites[i] == ljm.constants.READ else "WRITE"
     print(f"    {wrStr} {aNames[i]} ({aAddresses[i]})")
 
 print("\nBeginning %i iterations..." % numIterations)
@@ -241,10 +237,7 @@ if useAddresses:
 else:
     print("\nLast eNames results: ")
 for i in range(numFrames):
-    if aWrites[i] == ljm.constants.READ:
-        wrStr = "READ"
-    else:
-        wrStr = "WRITE"
+    wrStr = "READ" if aWrites[i] == ljm.constants.READ else "WRITE"
     print(
         "    {} ({}) {} value : {:f}".format(
             aNames[i], aAddresses[i], wrStr, results[i]

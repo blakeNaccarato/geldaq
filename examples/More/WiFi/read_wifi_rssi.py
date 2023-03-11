@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read the WiFi RSSI from a LabJack.
+"""Demonstrates how to read the WiFi RSSI from a LabJack.
 
 Relevant Documentation:
 

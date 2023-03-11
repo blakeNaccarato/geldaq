@@ -1,5 +1,4 @@
-"""
-Demonstrates triggered stream on DIO0 / FIO0.
+"""Demonstrates triggered stream on DIO0 / FIO0.
 
 Relevant Documentation:
 
@@ -32,11 +31,11 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/digital-io
 
 """
-from datetime import datetime
 import sys
+from datetime import datetime
 
-from labjack import ljm
 import ljm_stream_util
+from labjack import ljm
 
 MAX_REQUESTS = 10  # The number of eStreamRead calls that will be performed.
 

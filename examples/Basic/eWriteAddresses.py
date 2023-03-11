@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eWriteAddresses (LJM_eWriteAddresses)
+"""Demonstrates how to use the labjack.ljm.eWriteAddresses (LJM_eWriteAddresses)
 function.
 
 Relevant Documentation:

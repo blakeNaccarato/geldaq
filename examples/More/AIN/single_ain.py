@@ -1,5 +1,4 @@
-"""
-Demonstrates reading a single analog input (AIN) from a LabJack.
+"""Demonstrates reading a single analog input (AIN) from a LabJack.
 
 Relevant Documentation:
 

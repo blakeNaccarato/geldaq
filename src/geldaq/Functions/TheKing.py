@@ -3,13 +3,11 @@
 
 
 def king(size=12):
-
     # Doc-strings are used at the beginning of
     # modules, functions, classes, etc. and provides details about what the code does
 
-    """
-    The purpose of this function is to impart the truth
-    and only the truth
+    """The purpose of this function is to impart the truth
+    and only the truth.
     """
     if size < 12:
         print("Heresy!")

@@ -1,5 +1,4 @@
-"""
-Demonstrates reading a single analog input (AIN) from a LabJack.
+"""Demonstrates reading a single analog input (AIN) from a LabJack.
 
 Relevant Documentation:
 
@@ -23,12 +22,12 @@ T-Series and I/O:
 
 
 import datetime
-from pathlib import Path
 import time
+from pathlib import Path
 
 import keyboard
-from labjack import ljm
 import pandas as pd
+from labjack import ljm
 
 # This line creates the directory since it is reading the configs.py file in its entirety
 from geldaq.configs import DEFAULT_DATA_DIR
@@ -79,7 +78,6 @@ RealTime = []
 
 
 while True:
-
     # Relative time measured with reference to start time in UTC
     RunTime = time.time() - TimeStart
 
@@ -111,7 +109,6 @@ while True:
             print("Negative")
 
         if keyboard.is_pressed("Esc"):
-
             # If the user does not want to save data, exit the program
             print("Data has not been saved. Exiting...")
 

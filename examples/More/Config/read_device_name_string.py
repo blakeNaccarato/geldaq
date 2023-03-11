@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read the device name string from a LabJack.
+"""Demonstrates how to read the device name string from a LabJack.
 
 Relevant Documentation:
 

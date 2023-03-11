@@ -1,5 +1,4 @@
-"""
-Demonstrates configuring and reading a single analog input (AIN) with a LabJack.
+"""Demonstrates configuring and reading a single analog input (AIN) with a LabJack.
 
   Name: single_ain_with_config.c
   Desc: Demonstrates configuring and reading a single analog input (AIN) with a LabJack.

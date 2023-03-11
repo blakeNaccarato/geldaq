@@ -1,5 +1,4 @@
-"""
-Demonstrates SPI communication.
+"""Demonstrates SPI communication.
 
 You can short MOSI to MISO for testing.
 

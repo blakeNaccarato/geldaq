@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the streamBurst function for streaming.
+"""Demonstrates how to use the streamBurst function for streaming.
 
 Relevant Documentation:
 
@@ -26,8 +25,8 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
-from datetime import datetime
 import sys
+from datetime import datetime
 
 from labjack import ljm
 

@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eReadName (LJM_eReadName) function.
+"""Demonstrates how to use the labjack.ljm.eReadName (LJM_eReadName) function.
 
 Relevant Documentation:
 

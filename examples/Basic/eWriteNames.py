@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eWriteNames (LJM_eWriteNames) function.
+"""Demonstrates how to use the labjack.ljm.eWriteNames (LJM_eWriteNames) function.
 
 Relevant Documentation:
 

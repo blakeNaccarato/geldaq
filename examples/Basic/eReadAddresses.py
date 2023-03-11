@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eReadAddresses (LJM_eReadAddresses)
+"""Demonstrates how to use the labjack.ljm.eReadAddresses (LJM_eReadAddresses)
 function.
 
 Relevant Documentation:

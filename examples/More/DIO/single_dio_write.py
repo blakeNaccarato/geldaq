@@ -1,5 +1,4 @@
-"""
-Demonstrates how to set a single digital state on a LabJack.
+"""Demonstrates how to set a single digital state on a LabJack.
 
 Relevant Documentation:
 

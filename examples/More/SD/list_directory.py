@@ -1,12 +1,12 @@
 import sys
 
-from labjack import ljm
 import sd_util
+from labjack import ljm
 
 
 def usage():
     print("Usage: %s [directory]" % (sys.argv[0]))
-    exit()
+    sys.exit()
 
 
 listCwd = None
@@ -19,10 +19,7 @@ else:
 
 handle = sd_util.openDevice()
 
-if listCwd:
-    dirToRead = sd_util.getCWD(handle)
-else:
-    dirToRead = sys.argv[1]
+dirToRead = sd_util.getCWD(handle) if listCwd else sys.argv[1]
 
 sd_util.listDirContents(handle, dirToRead)
 ljm.close(handle)
