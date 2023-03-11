@@ -1,5 +1,4 @@
-"""
-Demonstrates setting up stream-in with stream-out that continuously updates.
+"""Demonstrates setting up stream-in with stream-out that continuously updates.
 
 Note: the LJM aperiodic stream-out functions are recommended for
     most use cases that require aperiodic stream-out
@@ -47,8 +46,8 @@ T-Series and I/O:
 
 """
 
-from labjack import ljm
 import ljm_stream_util
+from labjack import ljm
 
 # Setup
 

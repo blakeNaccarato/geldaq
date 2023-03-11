@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eNames (LJM_eNames) function.
+"""Demonstrates how to use the labjack.ljm.eNames (LJM_eNames) function.
 
 Relevant Documentation:
 

@@ -1,5 +1,4 @@
-"""
-Demonstrates reading 2 analog inputs (AINs) in a loop from a LabJack.
+"""Demonstrates reading 2 analog inputs (AINs) in a loop from a LabJack.
 
 Relevant Documentation:
 

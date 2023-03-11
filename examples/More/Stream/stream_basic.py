@@ -1,5 +1,4 @@
-"""
-Demonstrates how to stream using the eStream functions.
+"""Demonstrates how to stream using the eStream functions.
 
 Relevant Documentation:
 
@@ -24,8 +23,8 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
-from datetime import datetime
 import sys
+from datetime import datetime
 
 from labjack import ljm
 

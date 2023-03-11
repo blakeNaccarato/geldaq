@@ -1,5 +1,4 @@
-"""
-Demonstrates how to use the labjack.ljm.eAddresses (LJM_eAddresses) function.
+"""Demonstrates how to use the labjack.ljm.eAddresses (LJM_eAddresses) function.
 
 Relevant Documentation:
 

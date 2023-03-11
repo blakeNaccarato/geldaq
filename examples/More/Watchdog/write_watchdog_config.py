@@ -1,5 +1,4 @@
-"""
-Demonstrates how to configure the Watchdog on a LabJack.
+"""Demonstrates how to configure the Watchdog on a LabJack.
 
 Relevant Documentation:
 

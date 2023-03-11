@@ -1,5 +1,4 @@
-"""
-Demonstrates how to stream a range of sequential analog inputs using the eStream
+"""Demonstrates how to stream a range of sequential analog inputs using the eStream
 functions. Useful when streaming many analog inputs. AIN channel scan list is
 FIRST_AIN_CHANNEL to FIRST_AIN_CHANNEL + NUMBER_OF_AINS - 1.
 
@@ -28,8 +27,8 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
-from datetime import datetime
 import sys
+from datetime import datetime
 
 from labjack import ljm
 

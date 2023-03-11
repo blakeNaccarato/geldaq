@@ -1,5 +1,4 @@
-"""
-Demonstrates setting up stream-in and stream-out together, then reading
+"""Demonstrates setting up stream-in and stream-out together, then reading
 stream-in values.
 
 Connect a wire from AIN0 to DAC0 to see the effect of stream-out on
@@ -36,8 +35,8 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/dac
 
 """
-from datetime import datetime
 import sys
+from datetime import datetime
 
 from labjack import ljm
 

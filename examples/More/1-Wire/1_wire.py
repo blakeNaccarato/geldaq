@@ -1,5 +1,4 @@
-"""
-Demonstrates 1-Wire communication with a DS1822 sensor and a LabJack. This
+"""Demonstrates 1-Wire communication with a DS1822 sensor and a LabJack. This
 demonstration:
   - Searches for and displays the ROM ID and path of the connected 1-Wire device
     on EIO0.

@@ -1,5 +1,4 @@
-"""
-Demonstrates usage of aperiodic stream-out functions with stream-in
+"""Demonstrates usage of aperiodic stream-out functions with stream-in.
 
 Streams in while streaming out arbitrary values. These arbitrary stream-out
 values act on DAC0 to cyclically increase the voltage from 0 to 2.5.
@@ -38,8 +37,8 @@ T-Series and I/O:
 
 from time import sleep
 
-from labjack import ljm
 import ljm_stream_util
+from labjack import ljm
 
 # Setup
 

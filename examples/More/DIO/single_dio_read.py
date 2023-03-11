@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read a single digital input/output.
+"""Demonstrates how to read a single digital input/output.
 
 Relevant Documentation:
 

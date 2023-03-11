@@ -1,12 +1,12 @@
 import sys
 
-from labjack import ljm
 import sd_util
+from labjack import ljm
 
 
 def usage():
     print("Usage: %s file_to_read" % (sys.argv[0]))
-    exit()
+    sys.exit()
 
 
 if len(sys.argv) != 2:

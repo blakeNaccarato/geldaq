@@ -1,5 +1,4 @@
-"""
-Demonstrates usage of the periodic stream-out functions.
+"""Demonstrates usage of the periodic stream-out functions.
 
 Streams out arbitrary values. These arbitrary values act on DAC0 to cyclically
 increase the voltage from 0 to 2.5.
@@ -33,8 +32,8 @@ T-Series and I/O:
 """
 from time import sleep
 
-from labjack import ljm
 import ljm_stream_util
+from labjack import ljm
 
 
 def openLJMDevice(deviceType, connectionType, identifier):
@@ -96,7 +95,7 @@ def main():
         ljm.periodicStreamOut(
             handle, streamOutIndex, targetAddr, scanRate, len(writeData), writeData
         )
-        actualScanRate = ljm.eStreamStart(
+        ljm.eStreamStart(
             handle, scansPerRead, len(scanList), scanList, scanRate
         )
         print(

@@ -1,5 +1,4 @@
-"""
-Demonstrates how to set ethernet configuration settings on a LabJack.
+"""Demonstrates how to set ethernet configuration settings on a LabJack.
 
 Relevant Documentation:
 

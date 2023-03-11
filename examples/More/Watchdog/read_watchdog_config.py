@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read the Watchdog configuration from a LabJack.
+"""Demonstrates how to read the Watchdog configuration from a LabJack.
 
 Relevant Documentation:
 

@@ -1,5 +1,4 @@
-"""
-Demonstrates usage of the listAll functions (LJM_ListAll) which scans for
+"""Demonstrates usage of the listAll functions (LJM_ListAll) which scans for
 LabJack devices and returns information describing the found devices. This will
 only find LabJack devices supported by the LJM library.
 
@@ -38,6 +37,7 @@ def displayDeviceInfo(functionName, info):
     listAllS.
 
     Args:
+    ----
        functionName: The name of the function used
        info: tuple returned by listAll or listAllS
 

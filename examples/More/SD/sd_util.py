@@ -1,6 +1,5 @@
-"""
-Demonstrates usage of the T7's SD card system.
-https://labjack.com/support/datasheets/t-series/sd-card
+"""Demonstrates usage of the T7's SD card system.
+https://labjack.com/support/datasheets/t-series/sd-card.
 
 Relevant Documentation:
 
@@ -149,7 +148,7 @@ def getCurDirContents(handle):
 
 
 def readFile(handle, sdPath):
-    """Return the file contents of the specified path as a string"""
+    """Return the file contents of the specified path as a string."""
     sdPath = sanitizePath(sdPath)
 
     path, filename = os.path.split(sdPath)
@@ -167,7 +166,7 @@ def readFile(handle, sdPath):
     # Get file size from the directory contents
     try:
         fileSize = dir_contents[filename][0]
-    except KeyError as excep:
+    except KeyError:
         raise ValueError("File not found: %s" % (sdPath))
 
     # 1) Write the length of the file name to FILE_IO_PATH_WRITE_LEN_BYTES (add
@@ -234,7 +233,7 @@ def listDirContents(handle, sdPath="/\x00"):
 
     # Print results
     print("%40.40s  %9.9s  %9s" % ("Name\x00", "Type", "Size"))
-    for key in dirContents.keys():
+    for key in dirContents:
         # Check 4 or 5 bit
         if dirContents[key][1] & (1 << 5):
             type = "File"

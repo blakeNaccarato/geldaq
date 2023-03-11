@@ -197,7 +197,6 @@ def updateStreamOutBuffer(handle, outContext):
     ljm.eWriteName(handle, outNames["loopSize"], outContext["stateSize"])
 
     stateIndex = outContext["currentIndex"]
-    errorAddress = -1
     currentState = outContext["states"][stateIndex]
     values = currentState["values"]
 

@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read the WiFi MAC from a LabJack.
+"""Demonstrates how to read the WiFi MAC from a LabJack.
 
 Relevant Documentation:
 

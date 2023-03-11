@@ -1,5 +1,4 @@
-"""
-Demonstrates how to configure default power settings on a LabJack.
+"""Demonstrates how to configure default power settings on a LabJack.
 
 Relevant Documentation:
 

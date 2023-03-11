@@ -1,5 +1,4 @@
-"""
-Performs an initial call to eWriteNames to write configuration values, and then
+"""Performs an initial call to eWriteNames to write configuration values, and then
 calls eWriteNames and eReadNames repeatedly in a loop.
 
 Relevant Documentation:
@@ -154,9 +153,8 @@ while True:
             print("\nSkippedIntervals: %s" % skippedIntervals)
 
         i += 1
-        if loopAmount != "infinite":
-            if i >= loopAmount:
-                break
+        if loopAmount != "infinite" and i >= loopAmount:
+            break
     except KeyboardInterrupt:
         break
     except Exception:

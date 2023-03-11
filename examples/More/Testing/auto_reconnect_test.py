@@ -1,5 +1,4 @@
-"""
-Tests the LJM auto reconnect functionality.
+"""Tests the LJM auto reconnect functionality.
 
 Relevant Documentation:
 

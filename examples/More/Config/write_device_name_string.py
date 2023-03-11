@@ -1,5 +1,4 @@
-"""
-Demonstrates how to set the device name string on a LabJack.
+"""Demonstrates how to set the device name string on a LabJack.
 
 Relevant Documentation:
 

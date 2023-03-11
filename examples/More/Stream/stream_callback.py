@@ -1,5 +1,4 @@
-"""
-Demonstrates how to stream using a callback to read stream, which is useful
+"""Demonstrates how to stream using a callback to read stream, which is useful
 for streaming in external clock stream mode.
 
 Relevant Documentation:
@@ -33,10 +32,10 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/communication/stream-mode#externally-clocked
 
 """
-from datetime import datetime
 import sys
 import threading
 import time
+from datetime import datetime
 
 from labjack import ljm
 

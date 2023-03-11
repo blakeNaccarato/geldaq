@@ -1,5 +1,4 @@
-"""
-Demonstrates how to control lua script execution with an LJM host app
+"""Demonstrates how to control lua script execution with an LJM host app.
 
 Relevant Documentation:
 
@@ -28,7 +27,7 @@ from labjack import ljm
 
 
 def loadLuaScript(handle, luaScript):
-    """Function that loads and begins running a lua script"""
+    """Function that loads and begins running a lua script."""
     try:
         scriptLen = len(luaScript)
         # LUA_RUN must be written to twice to disable any running scripts.
@@ -50,7 +49,7 @@ def loadLuaScript(handle, luaScript):
 
 def readLuaInfo(handle):
     """Function that selects the current lua execution block and prints
-    out associated info from lua
+    out associated info from lua.
 
     """
     try:

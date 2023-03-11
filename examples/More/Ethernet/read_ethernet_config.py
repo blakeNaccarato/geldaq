@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read the ethernet configuration settings from a LabJack.
+"""Demonstrates how to read the ethernet configuration settings from a LabJack.
 
 Relevant Documentation:
 

@@ -1,5 +1,4 @@
-"""
-Demonstrates how to read configuration settings on a LabJack.
+"""Demonstrates how to read configuration settings on a LabJack.
 
 Relevant Documentation:
 
