@@ -95,9 +95,7 @@ def main():
         ljm.periodicStreamOut(
             handle, streamOutIndex, targetAddr, scanRate, len(writeData), writeData
         )
-        ljm.eStreamStart(
-            handle, scansPerRead, len(scanList), scanList, scanRate
-        )
+        ljm.eStreamStart(handle, scansPerRead, len(scanList), scanList, scanRate)
         print(
             "Stream started with scan rate of %f Hz\n Running for %d seconds\n"
             % (scanRate, runTime)
