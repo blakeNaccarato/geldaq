@@ -164,7 +164,7 @@ try:
         # scansPerRead*TOTAL_NUM_CHANNELS, but only the first
         # scansPerRead*NUM_IN_CHANNELS samples in the list are valid. Output
         # channels are not included in the eStreamRead's returned data.
-        data = ret[0][:scansPerRead * NUM_IN_CHANNELS]
+        data = ret[0][: scansPerRead * NUM_IN_CHANNELS]
         scans = len(data) / NUM_IN_CHANNELS
         totScans += scans
 

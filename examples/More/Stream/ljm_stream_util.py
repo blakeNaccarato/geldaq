@@ -95,8 +95,7 @@ def generateState(start, diff, stateSize, stateName):
     values = []
     increment = float(1) / stateSize
     values.extend(
-        start + diff * increment * iteration
-        for iteration in range(int(stateSize))
+        start + diff * increment * iteration for iteration in range(int(stateSize))
     )
     return {"stateName": stateName, "values": values}
 
@@ -253,8 +252,7 @@ def processStreamResults(
 
     print("\neStreamRead %i" % iteration)
     if resultStrs := [
-        f"{inNames[index]} = {data[index]:0.5f}"
-        for index in range(len(inNames))
+        f"{inNames[index]} = {data[index]:0.5f}" for index in range(len(inNames))
     ]:
         print("  1st scan out of %i: %s" % (numScans, ", ".join(resultStrs)))
 

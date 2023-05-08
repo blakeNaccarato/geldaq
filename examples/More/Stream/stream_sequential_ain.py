@@ -148,8 +148,7 @@ try:
 
         print("\neStreamRead %i" % i)
         ainStr = "".join(
-            f"{aScanListNames[j]} = {aData[j]:0.5f}, "
-            for j in range(0, numAddresses)
+            f"{aScanListNames[j]} = {aData[j]:0.5f}, " for j in range(0, numAddresses)
         )
         print("  1st scan out of %i: %s" % (scans, ainStr))
         print(

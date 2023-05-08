@@ -114,9 +114,7 @@ ljm.eWriteNameByteArray(handle, "I2C_DATA_TX", numBytes, aBytes)
 
 ljm.eWriteName(handle, "I2C_GO", 1)  # Do the I2C communications.
 
-print(
-    f'Write User Memory [0-3] = {" ".join(["%.0f" % val for val in aBytes[1:]])}'
-)
+print(f'Write User Memory [0-3] = {" ".join(["%.0f" % val for val in aBytes[1:]])}')
 
 # Final read of EEPROM bytes 0-3 in the user memory area. We need a single I2C
 # transmission that writes the address and then reads the data.
