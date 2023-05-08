@@ -21,6 +21,7 @@ T-Series and I/O:
 """
 
 
+
 import datetime
 import time
 from pathlib import Path
@@ -77,6 +78,7 @@ Volt2 = []
 RealTime = []
 
 
+name = "AIN1"
 while True:
     # Relative time measured with reference to start time in UTC
     RunTime = time.time() - TimeStart
@@ -96,7 +98,6 @@ while True:
     Volt1.append(reading1)
     Volt2.append(reading2)
 
-    name = "AIN1"
     print(f"\n{name} reading : {reading2:f} V")
     print(RunTime)
 

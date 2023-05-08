@@ -5,7 +5,7 @@ from labjack import ljm
 
 
 def usage():
-    print("Usage: %s directory" % (sys.argv[0]))
+    print(f"Usage: {sys.argv[0]} directory")
     sys.exit()
 
 

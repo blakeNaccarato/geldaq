@@ -28,6 +28,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/accessories/ljtick-dac
 
 """
+
 from random import randrange
 
 from labjack import ljm
@@ -113,7 +114,9 @@ ljm.eWriteNameByteArray(handle, "I2C_DATA_TX", numBytes, aBytes)
 
 ljm.eWriteName(handle, "I2C_GO", 1)  # Do the I2C communications.
 
-print("Write User Memory [0-3] = %s" % " ".join([("%.0f" % val) for val in aBytes[1:]]))
+print(
+    f'Write User Memory [0-3] = {" ".join(["%.0f" % val for val in aBytes[1:]])}'
+)
 
 # Final read of EEPROM bytes 0-3 in the user memory area. We need a single I2C
 # transmission that writes the address and then reads the data.
@@ -133,7 +136,7 @@ numBytes = 4
 aBytes = [0] * 4
 aBytes = ljm.eReadNameByteArray(handle, "I2C_DATA_RX", numBytes)
 
-print("Read User Memory [0-3] = %s" % " ".join([("%.0f" % val) for val in aBytes]))
+print(f'Read User Memory [0-3] = {" ".join(["%.0f" % val for val in aBytes])}')
 
 # Close handle
 ljm.close(handle)

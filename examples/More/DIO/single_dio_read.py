@@ -19,6 +19,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/digital-io
 
 """
+
 from labjack import ljm
 
 # Open first found LabJack
@@ -37,14 +38,7 @@ print(
 deviceType = info[0]
 
 # Setup and call eReadName to read a DIO state from the LabJack.
-if deviceType == ljm.constants.dtT4:
-    # Reading from FIO4 on the LabJack T4. FIO0-FIO3 are reserved for AIN0-AIN3.
-    # Note: Reading a single digital I/O will change the line from analog to
-    # digital input.
-    name = "FIO4"
-else:
-    # Reading from FIO0 on the LabJack T7 and other devices.
-    name = "FIO0"
+name = "FIO4" if deviceType == ljm.constants.dtT4 else "FIO0"
 result = ljm.eReadName(handle, name)
 
 print(f"\n{name} state : {result:f}")

@@ -68,7 +68,7 @@ def printDeviceInfo(handle):
 
 def main():
     scanRate = 1000
-    scansPerRead = int(scanRate / 2)
+    scansPerRead = scanRate // 2
     # Number of seconds to stream out waveforms
     runTime = 5
     # The desired stream channels
@@ -80,12 +80,7 @@ def main():
     # Stream out index can only be a number between 0-3
     streamOutIndex = 0
     samplesToWrite = 512
-    # Make an arbitrary waveform that increases voltage linearly from 0-2.5V
-    writeData = []
-    for i in range(samplesToWrite):
-        sample = 2.5 * i / samplesToWrite
-        writeData.append(sample)
-
+    writeData = [2.5 * i / samplesToWrite for i in range(samplesToWrite)]
     print("Beginning...\n")
     handle = openLJMDevice(ljm.constants.dtANY, ljm.constants.ctANY, "ANY")
     printDeviceInfo(handle)

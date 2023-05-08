@@ -70,7 +70,7 @@ def readLuaInfo(handle):
             print("LUA_DEBUG_NUM_BYTES: %d\n" % numBytes)
             aBytes = ljm.eReadNameByteArray(handle, "LUA_DEBUG_DATA", int(numBytes))
             luaMessage = "".join([("%c" % val) for val in aBytes])
-            print("LUA_DEBUG_DATA: %s" % luaMessage)
+            print(f"LUA_DEBUG_DATA: {luaMessage}")
     except ljm.LJMError:
         print("Error while running the main loop")
         raise

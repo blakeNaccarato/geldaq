@@ -23,6 +23,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
+
 import sys
 from datetime import datetime
 
@@ -50,7 +51,7 @@ aScanListNames = ["AIN0", "AIN1"]  # Scan list names to stream
 numAddresses = len(aScanListNames)
 aScanList = ljm.namesToAddresses(numAddresses, aScanListNames)[0]
 scanRate = 1000
-scansPerRead = int(scanRate / 2)
+scansPerRead = scanRate // 2
 
 try:
     # When streaming, negative channels and ranges can be configured for
@@ -103,8 +104,7 @@ try:
     totScans = 0
     totSkip = 0  # Total skipped samples
 
-    i = 1
-    while i <= MAX_REQUESTS:
+    for i in range(1, MAX_REQUESTS + 1):
         ret = ljm.eStreamRead(handle)
 
         aData = ret[0]
@@ -118,16 +118,15 @@ try:
         totSkip += curSkip
 
         print("\neStreamRead %i" % i)
-        ainStr = ""
-        for j in range(0, numAddresses):
-            ainStr += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
+        ainStr = "".join(
+            f"{aScanListNames[j]} = {aData[j]:0.5f}, "
+            for j in range(0, numAddresses)
+        )
         print("  1st scan out of %i: %s" % (scans, ainStr))
         print(
             "  Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = "
             "%i" % (curSkip / numAddresses, ret[1], ret[2])
         )
-        i += 1
-
     end = datetime.now()
 
     print("\nTotal scans = %i" % (totScans))

@@ -31,6 +31,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/digital-io
 
 """
+
 import sys
 from datetime import datetime
 
@@ -63,7 +64,7 @@ aScanListNames = ["AIN0", "AIN1"]  # Scan list names to stream
 numAddresses = len(aScanListNames)
 aScanList = ljm.namesToAddresses(numAddresses, aScanListNames)[0]
 scanRate = 1000
-scansPerRead = int(scanRate / 2)
+scansPerRead = scanRate // 2
 
 TRIGGER_NAME = "DIO0"
 
@@ -80,13 +81,13 @@ def configureDeviceForTriggeredStream(handle, triggerName):
     ljm.eWriteName(handle, "STREAM_TRIGGER_INDEX", address)
 
     # Clear any previous settings on triggerName's Extended Feature registers
-    ljm.eWriteName(handle, "%s_EF_ENABLE" % triggerName, 0)
+    ljm.eWriteName(handle, f"{triggerName}_EF_ENABLE", 0)
 
     # 5 enables a rising or falling edge to trigger stream
-    ljm.eWriteName(handle, "%s_EF_INDEX" % triggerName, 5)
+    ljm.eWriteName(handle, f"{triggerName}_EF_INDEX", 5)
 
     # Enable
-    ljm.eWriteName(handle, "%s_EF_ENABLE" % triggerName, 1)
+    ljm.eWriteName(handle, f"{triggerName}_EF_ENABLE", 1)
 
 
 def configureLJMForTriggeredStream():
@@ -158,9 +159,10 @@ try:
             totSkip += curSkip
 
             print("\neStreamRead %i" % i)
-            ainStr = ""
-            for j in range(0, numAddresses):
-                ainStr += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
+            ainStr = "".join(
+                f"{aScanListNames[j]} = {aData[j]:0.5f}, "
+                for j in range(0, numAddresses)
+            )
             print("  1st scan out of %i: %s" % (scans, ainStr))
             print(
                 "  Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = "
@@ -168,13 +170,11 @@ try:
             )
             i += 1
         except ljm.LJMError as err:
-            if err.errorCode == ljm.errorcodes.NO_SCANS_RETURNED:
-                sys.stdout.write(".")
-                sys.stdout.flush()
-                continue
-            else:
+            if err.errorCode != ljm.errorcodes.NO_SCANS_RETURNED:
                 raise err
 
+            sys.stdout.write(".")
+            sys.stdout.flush()
     end = datetime.now()
 
     print("\nTotal scans = %i" % (totScans))

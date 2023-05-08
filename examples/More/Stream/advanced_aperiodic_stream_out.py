@@ -46,6 +46,7 @@ T-Series and I/O:
 
 """
 
+
 import ljm_stream_util
 from labjack import ljm
 
@@ -83,8 +84,7 @@ initialScanRateHz = 200
 
 numCycles = initialScanRateHz / 10
 numCycles_MIN = 10
-if numCycles < numCycles_MIN:
-    numCycles = numCycles_MIN
+numCycles = max(numCycles, numCycles_MIN)
 
 
 def printRegisterValue(handle, registerName):
@@ -151,14 +151,14 @@ def main(
         )
         print(updateStr + str(outContext["stateSize"]))
 
-    scansPerRead = int(min([context["stateSize"] for context in outContexts]))
     bufferStatusNames = [out["names"]["bufferStatus"] for out in outContexts]
+    scansPerRead = int(min(context["stateSize"] for context in outContexts))
     try:
         scanList = ljm_stream_util.createScanList(
             inNames=inNames, outContexts=outContexts
         )
-        print("scanList: " + str(scanList))
-        print("scansPerRead: " + str(scansPerRead))
+        print(f"scanList: {str(scanList)}")
+        print(f"scansPerRead: {scansPerRead}")
 
         scanRate = ljm.eStreamStart(
             handle, scansPerRead, len(scanList), scanList, initialScanRateHz
@@ -178,9 +178,7 @@ def main(
                 infinityPreventer = infinityPreventer + 1
                 if infinityPreventer > scanRate:
                     raise ValueError(
-                        "Buffer statuses don't appear to be updating:"
-                        + str(bufferStatusNames)
-                        + str(bufferStatuses)
+                        f"Buffer statuses don't appear to be updating:{bufferStatusNames}{str(bufferStatuses)}"
                     )
 
             for outContext in outContexts:
@@ -198,7 +196,7 @@ def main(
             )
             totalNumSkippedScans += numSkippedScans
 
-            iteration = iteration + 1
+            iteration += 1
     except ljm.LJMError:
         ljm_stream_util.prepareForExit(handle)
         raise

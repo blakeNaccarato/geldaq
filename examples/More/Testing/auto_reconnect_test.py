@@ -34,7 +34,7 @@ except:
 
 
 def myReconnectCallback(handle):
-    print("Reconnected handle: %s" % handle)
+    print(f"Reconnected handle: {handle}")
 
 
 # Set the timeouts shorter for testing convenience
@@ -79,7 +79,7 @@ while True:
             )
         except ljm.LJMError:
             ljme = sys.exc_info()[1]
-            print("  " + str(ljme))
+            print(f"  {str(ljme)}")
 
         print("  Unplug, replug, wait")
         input("  Press Enter to continue\n")

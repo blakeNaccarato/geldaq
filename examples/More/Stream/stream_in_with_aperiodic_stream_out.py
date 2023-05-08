@@ -106,13 +106,9 @@ def printDeviceInfo(handle):
 def makeScanList(in_names, stream_outs):
     """Creates a list of integer addresses from lists of in and out names."""
     in_addresses = []
-    out_addresses = []
-
     if in_names:
         in_addresses = ljm_stream_util.convertNamesToAddresses(in_names)
-    for stream_out in stream_outs:
-        out_addresses.append(4800 + stream_out["index"])
-
+    out_addresses = [4800 + stream_out["index"] for stream_out in stream_outs]
     return in_addresses + out_addresses
 
 
@@ -147,8 +143,8 @@ def main(
             )
         print("")
         scanList = makeScanList(in_names=in_names, stream_outs=stream_outs)
-        print("scanList: " + str(scanList))
-        print("scansPerRead: " + str(scansPerRead))
+        print(f"scanList: {str(scanList)}")
+        print(f"scansPerRead: {scansPerRead}")
         scanRate = ljm.eStreamStart(
             handle, scansPerRead, len(scanList), scanList, initial_scanRate_hz
         )
@@ -168,7 +164,7 @@ def main(
                 iteration, stream_read, in_names
             )
             total_num_skipped_scans += num_skipped_scans
-            iteration = iteration + 1
+            iteration += 1
         # Since scan rate determines how quickly data can be written from the device
         # large chunks of data written at low scan rates can take longer to write
         # out than it takes to call LJM_WriteAperiodicStreamOut and
