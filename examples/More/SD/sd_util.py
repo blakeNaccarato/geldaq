@@ -31,9 +31,7 @@ QUIET_OPEN = True
 
 def sanitizePath(path):
     """Return the path null-terminator guaranteed to be appended to the end."""
-    if path[-1] != "\x00":
-        return "%s\x00" % path
-    return path
+    return "%s\x00" % path if path[-1] != "\x00" else path
 
 
 def openDevice(quiet=QUIET_OPEN):
@@ -80,9 +78,7 @@ def getCWD(handle):
     #    FILE_IO_PATH_READ
     nameInBytes = ljm.eReadNameByteArray(handle, "FILE_IO_PATH_READ", len)
 
-    # convert to string
-    nameStr = "".join(chr(x) for x in nameInBytes)
-    return nameStr
+    return "".join(chr(x) for x in nameInBytes)
 
 
 def goToPath(handle, sdPath):
@@ -167,7 +163,7 @@ def readFile(handle, sdPath):
     try:
         fileSize = dir_contents[filename][0]
     except KeyError:
-        raise ValueError("File not found: %s" % (sdPath))
+        raise ValueError(f"File not found: {sdPath}")
 
     # 1) Write the length of the file name to FILE_IO_PATH_WRITE_LEN_BYTES (add
     #    1 for the null terminator);
@@ -187,9 +183,7 @@ def readFile(handle, sdPath):
     # 5) Write a value of 1 to FILE_IO_CLOSE
     ljm.eWriteName(handle, "FILE_IO_CLOSE", 1)
 
-    # Convert data bytes to string
-    fileData = "".join(chr(x) for x in fileDataBytes)
-    return fileData
+    return "".join(chr(x) for x in fileDataBytes)
 
 
 def printDiskInfo(handle):
@@ -227,7 +221,7 @@ def listDirContents(handle, sdPath="/\x00"):
     if sdPath == "/\x00":
         print("Root Directory Contents:")
     else:
-        print("%s Directory Contents:" % (sdPath))
+        print(f"{sdPath} Directory Contents:")
 
     dirContents = getCurDirContents(handle)
 
@@ -238,11 +232,7 @@ def listDirContents(handle, sdPath="/\x00"):
         if dirContents[key][1] & (1 << 5):
             type = "File"
         else:
-            if dirContents[key][1] & (1 << 4):
-                type = "Folder"
-            else:
-                type = "Other"
-
+            type = "Folder" if dirContents[key][1] & (1 << 4) else "Other"
         if type == "File":
             print("%40.40s  %9.9s  %9d bytes" % (key, type, dirContents[key][0]))
         else:
@@ -265,7 +255,7 @@ def deleteFile(handle, sdPath):
     # 2) Write the name to FILE_IO_NAME_WRITE (with null terminator)
     ljm.eWriteNameByteArray(handle, "FILE_IO_PATH_WRITE", sdPathLen, sdPathBytes)
 
-    print("Deleting file at %s" % (sdPath))
+    print(f"Deleting file at {sdPath}")
     # 3) Write a value to FILE_IO_DELETE to delete the file at the specified
     #    path
     ljm.eWriteName(handle, "FILE_IO_DELETE", 1)

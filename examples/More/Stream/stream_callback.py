@@ -154,7 +154,7 @@ if __name__ == "__main__":
     si.numAddresses = len(si.aScanListNames)
     si.aScanList = ljm.namesToAddresses(si.numAddresses, si.aScanListNames)[0]
     si.scanRate = 2000
-    si.scansPerRead = int(si.scanRate / 2)
+    si.scansPerRead = si.scanRate // 2
 
     si.numberOfReadsToPerform = 20
     si.done = False

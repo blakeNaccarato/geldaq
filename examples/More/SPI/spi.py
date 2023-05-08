@@ -41,6 +41,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/digital-io/spi
 
 """
+
 from random import randrange
 
 from labjack import ljm
@@ -123,8 +124,7 @@ numBytes = 4
 ljm.eWriteName(handle, "SPI_NUM_BYTES", numBytes)
 
 # Write the bytes
-dataWrite = []
-dataWrite.extend([randrange(0, 256) for _ in range(numBytes)])
+dataWrite = [randrange(0, 256) for _ in range(numBytes)]
 ljm.eWriteNameByteArray(handle, "SPI_DATA_TX", len(dataWrite), dataWrite)
 ljm.eWriteName(handle, "SPI_GO", 1)  # Do the SPI communications
 

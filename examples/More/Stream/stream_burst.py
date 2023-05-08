@@ -25,6 +25,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
+
 import sys
 from datetime import datetime
 
@@ -98,12 +99,12 @@ try:
 
     print("\nScan list:")
     for chan in aScanListNames:
-        print("  %s" % chan)
-    print("Scan rate = %s Hz" % scanRate)
-    print("Sample rate = %s Hz" % (scanRate * numAddresses))
-    print("Total number of scans: %s" % numScans)
-    print("Total number of samples: %s" % (numScans * numAddresses))
-    print("Seconds of samples = %s" % (numScans / scanRate))
+        print(f"  {chan}")
+    print(f"Scan rate = {scanRate} Hz")
+    print(f"Sample rate = {scanRate * numAddresses} Hz")
+    print(f"Total number of scans: {numScans}")
+    print(f"Total number of samples: {numScans * numAddresses}")
+    print(f"Seconds of samples = {numScans / scanRate}")
 
     print("\nStreaming with streamBurst ...")
     start = datetime.now()
@@ -125,7 +126,7 @@ try:
         ainStr1 += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
         ainStr2 += f"{aScanListNames[j]} = {aData[lastScanIndex + j]:0.5f}, "
     print("\nFirst scan: %s" % ainStr1)
-    print("Last scan: %s" % ainStr2)
+    print(f"Last scan: {ainStr2}")
 except ljm.LJMError:
     ljme = sys.exc_info()[1]
     print(ljme)

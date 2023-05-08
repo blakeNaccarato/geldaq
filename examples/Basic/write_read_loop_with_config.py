@@ -28,6 +28,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/dac
 
 """
+
 import sys
 
 from labjack import ljm
@@ -40,8 +41,7 @@ if len(sys.argv) > 1:
         loopAmount = int(sys.argv[1])
     except:
         raise Exception(
-            'Invalid first argument "%s". This specifies how many'
-            " times to loop and needs to be a number." % str(sys.argv[1])
+            f'Invalid first argument "{str(sys.argv[1])}". This specifies how many times to loop and needs to be a number.'
         )
 else:
     # An argument was not passed. Loop an infinite amount of times.
@@ -110,10 +110,10 @@ for i in range(numFrames):
 
 print(f"\nStarting {str(loopAmount)} read loops.{loopMessage}\n")
 i = 0
-dacVolt = 0.0
 fioState = 0
 intervalHandle = 1
 ljm.startInterval(intervalHandle, 1000000)
+dacVolt = 0.0
 while True:
     try:
         # Setup and call eWriteNames to write to DAC0, and FIO5 (T4) or

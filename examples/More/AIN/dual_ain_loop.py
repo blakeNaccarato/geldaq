@@ -21,6 +21,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/ain
 
 """
+
 import sys
 
 from labjack import ljm
@@ -33,8 +34,7 @@ if len(sys.argv) > 1:
         loopAmount = int(sys.argv[1])
     except:
         raise Exception(
-            'Invalid first argument "%s". This specifies how many'
-            " times to loop and needs to be a number." % str(sys.argv[1])
+            f'Invalid first argument "{str(sys.argv[1])}". This specifies how many times to loop and needs to be a number.'
         )
 else:
     # An argument was not passed. Loop an infinite amount of times.
@@ -99,14 +99,13 @@ print("\nSet configuration:")
 for i in range(numFrames):
     print(f"    {names[i]} : {aValues[i]:f}")
 
-# Read AIN0 and AIN1 from the LabJack with eReadNames in a loop.
-numFrames = 2
 names = ["AIN0", "AIN1"]
 
 print(f"\nStarting {str(loopAmount)} read loops.{loopMessage}\n")
 intervalHandle = 1
 ljm.startInterval(intervalHandle, 1000000)  # Delay between readings (in microseconds)
 i = 0
+numFrames = 2
 while True:
     try:
         results = ljm.eReadNames(handle, numFrames, names)

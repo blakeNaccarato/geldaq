@@ -102,7 +102,7 @@ if deviceType == ljm.constants.dtT4:
     ljm.eWriteNames(
         handle, 2, ["DIO_INHIBIT", "DIO_ANALOG_ENABLE"], [dioInhibit, dioAnalogEnable]
     )
-    if writeDigital is True:
+    if writeDigital:
         # Update only digital I/O channels in future digital write calls.
         # b1 = Ignored. b0 = Affected.
         dioInhibit = dioAnalogEnable
@@ -147,7 +147,7 @@ for i in range(numAIN):
     aNumValues.append(1)
     aValues.append(0)
 
-if readDigital is True:
+if readDigital:
     # Add digital read
     numFrames += 1
     aNames.append("DIO_STATE")
@@ -155,7 +155,7 @@ if readDigital is True:
     aNumValues.append(1)
     aValues.append(0)
 
-if writeDigital is True:
+if writeDigital:
     # Add digital write
     numFrames += 1
     aNames.append("DIO_STATE")
@@ -163,7 +163,7 @@ if writeDigital is True:
     aNumValues.append(1)
     aValues.append(0)  # output-low
 
-if writeDACs is True:
+if writeDACs:
     # Add analog output writes (DAC0-1)
     for i in range(2):
         numFrames += 1
@@ -217,7 +217,7 @@ else:
     )
 
 # eAddresses or eNames loop
-for i in range(numIterations):
+for _ in range(numIterations):
     ttMS = t.timeit(number=1)
     if minMS == 0:
         minMS = ttMS

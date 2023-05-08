@@ -66,10 +66,7 @@ def convertNamesToAddresses(names, lengthLimit=None):
     @return: The given names converted to addresses.
     @rtype: iterable over str
     """
-    length = len(names)
-    if lengthLimit:
-        length = lengthLimit
-
+    length = lengthLimit if lengthLimit else len(names)
     addressesAndTypes = ljm.namesToAddresses(length, names)
 
     # ljm.namesToAddresses returns a tuple of a list of addresses and a list of
@@ -79,7 +76,6 @@ def convertNamesToAddresses(names, lengthLimit=None):
 
 def createScanList(inNames=[], outContexts=[]):
     """Creates a list of integer addresses from lists of in and out names."""
-    inAddresses = []
     outAddresses = []
 
     if len(outContexts) > 4:
@@ -90,9 +86,7 @@ def createScanList(inNames=[], outContexts=[]):
         streamOutAddress = convertNameToAddress(streamOutName)
         outAddresses.append(streamOutAddress)
 
-    if inNames:
-        inAddresses = convertNamesToAddresses(inNames)
-
+    inAddresses = convertNamesToAddresses(inNames) if inNames else []
     return inAddresses + outAddresses
 
 
@@ -100,11 +94,9 @@ def generateState(start, diff, stateSize, stateName):
     """Generates a dict that contains a stateName and a list of values."""
     values = []
     increment = float(1) / stateSize
-    for iteration in range(int(stateSize)):
-        # Get a value between start + diff
-        sample = start + diff * increment * iteration
-        values.append(sample)
-
+    values.extend(
+        start + diff * increment * iteration for iteration in range(int(stateSize))
+    )
     return {"stateName": stateName, "values": values}
 
 
@@ -156,7 +148,7 @@ def createOutContext(streamOut):
         "stateSize": stateSize,
         "targetTypeStr": targetType,
     }
-    outContext.update(streamOut)
+    outContext |= streamOut
 
     outContext["names"] = createStreamOutNames(outContext)
 
@@ -203,9 +195,7 @@ def updateStreamOutBuffer(handle, outContext):
     info = ljm.getHandleInfo(handle)
     maxBytes = info[5]
     SINGLE_ARRAY_SEND_MAX_BYTES = 520
-    if maxBytes > SINGLE_ARRAY_SEND_MAX_BYTES:
-        maxBytes = SINGLE_ARRAY_SEND_MAX_BYTES
-
+    maxBytes = min(maxBytes, SINGLE_ARRAY_SEND_MAX_BYTES)
     NUM_HEADER_BYTES = 12
     NUM_BYTES_PER_F32 = 4
     maxSamples = int((maxBytes - NUM_HEADER_BYTES) / NUM_BYTES_PER_F32)
@@ -213,14 +203,13 @@ def updateStreamOutBuffer(handle, outContext):
     start = 0
     while start < len(values):
         numSamples = len(values) - start
-        if numSamples > maxSamples:
-            numSamples = maxSamples
+        numSamples = min(numSamples, maxSamples)
         end = start + numSamples
         writeValues = values[start:end]
 
         ljm.eWriteNameArray(handle, outNames["buffer"], numSamples, writeValues)
 
-        start = start + numSamples
+        start += numSamples
 
     ljm.eWriteName(handle, outNames["setLoop"], outContext["setLoop"])
 
@@ -262,11 +251,9 @@ def processStreamResults(
     numSkippedSamples = data.count(-9999.0)
 
     print("\neStreamRead %i" % iteration)
-    resultStrs = []
-    for index in range(len(inNames)):
-        resultStrs.append(f"{inNames[index]} = {data[index]:0.5f}")
-
-    if resultStrs:
+    if resultStrs := [
+        f"{inNames[index]} = {data[index]:0.5f}" for index in range(len(inNames))
+    ]:
         print("  1st scan out of %i: %s" % (numScans, ", ".join(resultStrs)))
 
     # This is a test to ensure that 2 in channels are synchronized

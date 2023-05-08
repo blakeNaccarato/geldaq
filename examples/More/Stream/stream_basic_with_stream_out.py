@@ -35,6 +35,7 @@ T-Series and I/O:
         https://labjack.com/support/datasheets/t-series/dac
 
 """
+
 import sys
 from datetime import datetime
 
@@ -145,7 +146,7 @@ try:
     ljm.eWriteNames(handle, numFrames, aNames, aValues)
 
     # Configure and start stream
-    print(aScanList[0:TOTAL_NUM_CHANNELS])
+    print(aScanList[:TOTAL_NUM_CHANNELS])
     scanRate = ljm.eStreamStart(
         handle, scansPerRead, TOTAL_NUM_CHANNELS, aScanList, scanRate
     )
@@ -156,15 +157,14 @@ try:
     totScans = 0
     totSkip = 0  # Total skipped samples
 
-    i = 1
-    while i <= MAX_REQUESTS:
+    for i in range(1, MAX_REQUESTS + 1):
         ret = ljm.eStreamRead(handle)
 
         # Note that the Python eStreamData will return a data list of size
         # scansPerRead*TOTAL_NUM_CHANNELS, but only the first
         # scansPerRead*NUM_IN_CHANNELS samples in the list are valid. Output
         # channels are not included in the eStreamRead's returned data.
-        data = ret[0][0 : (scansPerRead * NUM_IN_CHANNELS)]
+        data = ret[0][: scansPerRead * NUM_IN_CHANNELS]
         scans = len(data) / NUM_IN_CHANNELS
         totScans += scans
 
@@ -189,8 +189,6 @@ try:
             ret[2],
         )
         print(readStr)
-        i += 1
-
     end = datetime.now()
 
     print("\nTotal scans = %i" % (totScans))
