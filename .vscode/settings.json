@@ -9,27 +9,35 @@
   // See: https://github.com/microsoft/vscode-python/issues/944#issuecomment-808516207
   "terminal.integrated.defaultProfile.linux": "pwsh",
 
-  // Don't let VSCode activate our environment because our terminal already does so.
-  "python.terminal.activateEnvironment": false,
-
   //! Pylance
-  //* Pylance settings aren't very discoverable.
-  //* https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance
   "python.languageServer": "Pylance",
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.indexing": true,
+  //? These are safer defaults which are overridden in `pyrightconfig.json`.
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.useLibraryCodeForTypes": false,
+  //? Refactoring
+  "python.analysis.fixAll": [
+    "source.convertImportFormat",
+    "source.unusedImports"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.organizeImports": false
+  },
+  "python.analysis.completeFunctionParens": false, // Buggy
   //? Auto imports
+  "python.analysis.importFormat": "absolute",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.extraCommitChars": true,
+  "python.analysis.addImport.exactMatchOnly": false,
   //? Inlay hints
   "editor.inlayHints.enabled": "offUnlessPressed",
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.inlayHints.pytestParameters": true,
   //? See "include" and "extrapaths" in pyrightconfig.json
   "python.analysis.autoSearchPaths": false,
-  //? See "useLibraryCodeForTypes" in pyrightconfig.json
-  "python.analysis.typeCheckingMode": "off",
-  "python.analysis.completeFunctionParens": false, // Buggy for now
 
   //! Lint, test, format
   //* pytest
@@ -41,9 +49,14 @@
   },
   //* black
   "black-formatter.importStrategy": "fromEnvironment",
+  //? Ensure user setting args are cleared
+  "black-formatter.logLevel": "warn",
   "black-formatter.args": [],
   //* ruff
   "ruff.importStrategy": "fromEnvironment",
+  //? Ensure user setting args are cleared
+  "ruff.logLevel": "warn",
+  "ruff.args": [],
 
   //! GitHub Actions
   "github-actions.workflows.pinned.workflows": [".github/workflows/main.yml"],
@@ -77,19 +90,30 @@
     "*.tsx": "${capture}.ts",
     "tsconfig.json": "tsconfig.*.json",
     "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
-    ".nest_tools_config": "coverage.xml, setup.ps1, update.ps1, *.code-workspace, *.prof, .copier-answers.yml, .coverage, .coveragerc, .env, .gitattributes, .gitmodules, .markdownlint.yaml, .pre-commit-config.yaml, .pytest_cache, .sourcery.yaml, codecov.yml, pyrightconfig.json, pytest.ini, pythonrc.py, renovate.json",
-    ".nest_md": "*.md, LICENSE"
+    ".nest_tools_config": "coverage.xml, setup.ps1, update.ps1, *.code-workspace, *.prof, .copier-answers.yml, .coverage, .coveragerc, .env, .gitattributes, .gitmodules, .markdownlint.yaml, .pre-commit-config.yaml, .pytest_cache, .sourcery.yaml, codecov.yml, pyproject.toml, pyrightconfig.json, pytest.ini, pythonrc.py, renovate.json",
+    ".nest_md": "*.md, CITATION.cff, LICENSE"
   },
   //* File associations
   "files.associations": {
     ".coveragerc": "ini",
-    ".env": "dotenv",
+    "*.env": "dotenv",
     ".pylintrc": "ini",
     "pyrightconfig.json": "jsonc",
     "*requirements*.txt": "pip-requirements",
     ".nest_md": "markdown",
     ".nest_tools_config": "plaintext",
     ".sourcery.yaml": "yaml"
+  },
+  //* Exclude problematic files in Problems panel filter and elsewhere
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    //? Pylance notebook cell temp files that get picked up in Problems pane before deletion
+    "**/*pylance-notebook-cell*": true
   },
   //* File icon associations
   "workbench.iconTheme": "vscode-icons",
@@ -107,21 +131,18 @@
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true,
   //* Editor format on save and more. Can run "File: Save without formatting" to skip.
-  "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
-  },
+  "python.formatting.provider": "black",
   //* Enforce whitespace and newlines.
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "files.trimFinalNewlines": true,
   //* Periodically fetch changes to tracked repo. Don't confirm on push/pull.
   "git.autofetch": true,
+  "git.commandsToLog": ["commit", "push"],
   "git.confirmSync": false,
+  "git.ignoredRepositories": ["template", "typings"],
   //* Markdown editor moves jarringly when this is "true"
   "markdown.preview.scrollEditorWithPreview": false,
   //* Exclude
@@ -147,43 +168,40 @@
   //! Filetype specifics
   //* .ENV
   "[dotenv]": {
-    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrap": "bounded",
     "rewrap.autoWrap.enabled": false
-  },
-  //* IPYNB
-  "[ipynb]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   //* MD
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-    "editor.wordWrap": "wordWrapColumn",
-    //? Roughly matches the width of GitHub Markdown
-    "editor.wordWrapColumn": 124,
-    "editor.rulers": [124],
+    "editor.wordWrap": "bounded",
     "rewrap.autoWrap.enabled": false
   },
   //* JSON
   "[json]": {
-    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrap": "bounded",
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
-    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrap": "bounded",
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   //* PYTHON
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
+  //* IPYNB
+  "[ipynb]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
   //* TXT
   "[plaintext]": {
-    "editor.wordWrap": "wordWrapColumn"
+    "editor.wordWrap": "bounded"
   },
   //* TOML
   "evenBetterToml.formatter.columnWidth": 88,
   "[toml]": {
-    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrap": "bounded",
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
   //* TSV
@@ -195,9 +213,10 @@
   "yaml.format.printWidth": 88,
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.wordWrap": "wordWrapColumn"
+    "editor.wordWrap": "bounded"
   },
 
   //! Extension: Jupyter Notebooks
-  "jupyter.notebookFileRoot": "${workspaceFolder}"
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "jupyter.showVariableViewWhenDebugging": true
 }
