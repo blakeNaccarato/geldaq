@@ -61,8 +61,7 @@ for i in range(numFrames):
         print(f"    {names[i]} : {results[i]:.0f}")
     else:
         print(
-            "    %s : %.0f - %s"
-            % (names[i], results[i], ljm.numberToIP(int(results[i])))
+            f"    {names[i]} : {results[i]:.0f} - {ljm.numberToIP(int(results[i]))}"
         )
 
 # Setup and call eReadNameString to read the WiFi SSID string from the LabJack.

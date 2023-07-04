@@ -146,8 +146,8 @@ def main(
 
     for outContext in outContexts:
         updateStr = (
-            "Updating %(streamOut)s buffer whenever "
-            "%(bufferStatus)s is greater or equal to " % outContext["names"]
+            "Updating {streamOut} buffer whenever "
+            "{bufferStatus} is greater or equal to ".format(**outContext["names"])
         )
         print(updateStr + str(outContext["stateSize"]))
 
@@ -157,7 +157,7 @@ def main(
         scanList = ljm_stream_util.createScanList(
             inNames=inNames, outContexts=outContexts
         )
-        print(f"scanList: {str(scanList)}")
+        print(f"scanList: {scanList!s}")
         print(f"scansPerRead: {scansPerRead}")
 
         scanRate = ljm.eStreamStart(
@@ -178,7 +178,7 @@ def main(
                 infinityPreventer = infinityPreventer + 1
                 if infinityPreventer > scanRate:
                     raise ValueError(
-                        f"Buffer statuses don't appear to be updating:{bufferStatusNames}{str(bufferStatuses)}"
+                        f"Buffer statuses don't appear to be updating:{bufferStatusNames}{bufferStatuses!s}"
                     )
 
             for outContext in outContexts:
