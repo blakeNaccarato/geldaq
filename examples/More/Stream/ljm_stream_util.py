@@ -74,8 +74,12 @@ def convertNamesToAddresses(names, lengthLimit=None):
     return addressesAndTypes[0]
 
 
-def createScanList(inNames=[], outContexts=[]):
+def createScanList(inNames=None, outContexts=None):
     """Creates a list of integer addresses from lists of in and out names."""
+    if outContexts is None:
+        outContexts = []
+    if inNames is None:
+        inNames = []
     outAddresses = []
 
     if len(outContexts) > 4:

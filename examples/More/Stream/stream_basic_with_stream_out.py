@@ -176,12 +176,9 @@ try:
 
         print("\neStreamRead #%i, %i scans" % (i, scans))
         readStr = "  "
-        for j in range(0, scansPerRead):
-            for k in range(0, NUM_IN_CHANNELS):
-                readStr += "{}: {:0.5f}, ".format(
-                    POS_IN_NAMES[k],
-                    data[j * NUM_IN_CHANNELS + k],
-                )
+        for j in range(scansPerRead):
+            for k in range(NUM_IN_CHANNELS):
+                readStr += f"{POS_IN_NAMES[k]}: {data[j * NUM_IN_CHANNELS + k]:0.5f}, "
             readStr += "\n  "
         readStr += "Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = %i" % (
             curSkip / NUM_IN_CHANNELS,

@@ -79,7 +79,7 @@ while True:
             )
         except ljm.LJMError:
             ljme = sys.exc_info()[1]
-            print(f"  {str(ljme)}")
+            print(f"  {ljme!s}")
 
         print("  Unplug, replug, wait")
         input("  Press Enter to continue\n")

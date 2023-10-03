@@ -23,6 +23,7 @@ T-Series and I/O:
 
 """
 import os
+import sys
 
 from labjack import ljm
 
@@ -59,7 +60,7 @@ def openDevice(quiet=QUIET_OPEN):
     if info[0] == ljm.constants.dtT4:
         print("The T4 does not support an SD card.")
         print("Exiting now.")
-        exit()
+        sys.exit()
 
     return handle
 
@@ -202,8 +203,7 @@ def printDiskInfo(handle):
     # freeSize = sector_size * sectors_per_cluster * free_clusters (in bytes)
     freeSize = results[0] * results[1] * results[3]
     print(
-        "%f megabytes free of %f total megabytes."
-        % (freeSize / 1048576, totalSize / 1048576)
+        "{:f} megabytes free of {:f} total megabytes.".format(freeSize / 1048576, totalSize / 1048576)
     )
 
 

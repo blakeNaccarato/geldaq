@@ -122,7 +122,7 @@ try:
     ainStr1 = ""
     ainStr2 = ""
     lastScanIndex = len(aData) - numAddresses
-    for j in range(0, numAddresses):
+    for j in range(numAddresses):
         ainStr1 += f"{aScanListNames[j]} = {aData[j]:0.5f}, "
         ainStr2 += f"{aScanListNames[j]} = {aData[lastScanIndex + j]:0.5f}, "
     print("\nFirst scan: %s" % ainStr1)

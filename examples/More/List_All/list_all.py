@@ -43,7 +43,7 @@ def displayDeviceInfo(functionName, info):
 
     """
     print("\n%s found %i LabJacks:\n" % (functionName, info[0]))
-    fmt = "".join(["{%i:<18}" % i for i in range(0, 4)])
+    fmt = "".join(["{%i:<18}" % i for i in range(4)])
     print(fmt.format("Device Type", "Connection Type", "Serial Number", "IP Address"))
     for i in range(info[0]):
         print(
