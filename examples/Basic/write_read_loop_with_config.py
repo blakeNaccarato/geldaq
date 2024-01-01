@@ -41,7 +41,7 @@ if len(sys.argv) > 1:
         loopAmount = int(sys.argv[1])
     except:
         raise Exception(
-            f'Invalid first argument "{str(sys.argv[1])}". This specifies how many times to loop and needs to be a number.'
+            f'Invalid first argument "{sys.argv[1]!s}". This specifies how many times to loop and needs to be a number.'
         )
 else:
     # An argument was not passed. Loop an infinite amount of times.
@@ -108,7 +108,7 @@ print("\nSet configuration:")
 for i in range(numFrames):
     print(f"    {aNames[i]} : {aValues[i]:f}")
 
-print(f"\nStarting {str(loopAmount)} read loops.{loopMessage}\n")
+print(f"\nStarting {loopAmount!s} read loops.{loopMessage}\n")
 i = 0
 fioState = 0
 intervalHandle = 1

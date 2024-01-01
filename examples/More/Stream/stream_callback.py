@@ -102,7 +102,7 @@ def myStreamReadCallback(arg):
         si.totSkip += curSkip
 
         string += "  1st scan out of %i: " % scans
-        for j in range(0, si.numAddresses):
+        for j in range(si.numAddresses):
             string += f"{si.aScanListNames[j]} = {si.aData[j]:0.5f}, "
         string += "\n  Scans Skipped = %0.0f, Scan Backlogs: Device = %i, LJM = %i" % (
             curSkip / si.numAddresses,

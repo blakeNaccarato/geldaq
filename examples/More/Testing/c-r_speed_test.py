@@ -239,9 +239,7 @@ else:
 for i in range(numFrames):
     wrStr = "READ" if aWrites[i] == ljm.constants.READ else "WRITE"
     print(
-        "    {} ({}) {} value : {:f}".format(
-            aNames[i], aAddresses[i], wrStr, results[i]
-        )
+        f"    {aNames[i]} ({aAddresses[i]}) {wrStr} value : {results[i]:f}"
     )
 
 # Close handle
