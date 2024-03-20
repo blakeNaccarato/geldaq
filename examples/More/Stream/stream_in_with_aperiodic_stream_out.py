@@ -143,7 +143,7 @@ def main(
             )
         print("")
         scanList = makeScanList(in_names=in_names, stream_outs=stream_outs)
-        print(f"scanList: {str(scanList)}")
+        print(f"scanList: {scanList!s}")
         print(f"scansPerRead: {scansPerRead}")
         scanRate = ljm.eStreamStart(
             handle, scansPerRead, len(scanList), scanList, initial_scanRate_hz
