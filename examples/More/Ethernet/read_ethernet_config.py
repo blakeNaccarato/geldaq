@@ -56,8 +56,7 @@ for i in range(numFrames):
         print(f"    {names[i]} : {results[i]:.0f}")
     else:
         print(
-            "    %s : %.0f - %s"
-            % (names[i], results[i], ljm.numberToIP(int(results[i])))
+            f"    {names[i]} : {results[i]:.0f} - {ljm.numberToIP(int(results[i]))}"
         )
 
 # Close handle

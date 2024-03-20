@@ -229,8 +229,7 @@ print("\n%i iterations performed:" % numIterations)
 print("    Time taken: %.3f ms" % (totalMS * 1000))
 print("    Average time per iteration: %.3f ms" % (totalMS / numIterations * 1000))
 print(
-    "    Min / Max time for one iteration: %.3f ms / %.3f ms"
-    % (minMS * 1000, maxMS * 1000)
+    "    Min / Max time for one iteration: {:.3f} ms / {:.3f} ms".format(minMS * 1000, maxMS * 1000)
 )
 if useAddresses:
     print("\nLast eAddresses results: ")
